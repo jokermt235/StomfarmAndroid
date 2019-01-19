@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/new_order_items_header_column_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_column="0"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Наименование" />
+
+        <TextView
+            android:id="@+id/new_order_items_header_column_price"
+            android:layout_height="match_parent"
+            android:layout_column="1"
+            android:padding="10dp"
+            android:text="Цена" />
+
+        <TextView
+            android:id="@+id/new_order_items_header_column_count"
+            android:layout_column="2"
+            android:padding="10dp"
+            android:text="Количество" />
+
+        <TextView
+            android:id="@+id/new_order_items_header_column_unit"
+            android:layout_column="3"
+            android:padding="10dp"
+            android:text="Ед.Изм" />
+    </TableRow>
+</TableLayout>
