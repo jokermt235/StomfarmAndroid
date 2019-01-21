@@ -21,6 +21,7 @@ import java.util.zip.Inflater;
 public class NewOrderActivtiy extends AppCompatActivity {
 
     FloatingActionButton mFloatingAddItemMannual;
+    FloatingActionButton mScanItemFb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +31,22 @@ public class NewOrderActivtiy extends AppCompatActivity {
 
         mFloatingAddItemMannual = (FloatingActionButton)findViewById(R.id.new_order_mannual_fb);
 
+        mScanItemFb = findViewById(R.id.new_order_scan_fb);
+
         mFloatingAddItemMannual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NewOrderActivtiy.this.startActivityForResult(new Intent(NewOrderActivtiy.this, NewOrderAddItemManuallyActivity.class), 1);
             }
         });
+
+        mScanItemFb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NewOrderActivtiy.this.startActivityForResult(new Intent(NewOrderActivtiy.this, SimpleScannerActivity.class), 1);
+            }
+        });
+
         ViewGroup headerView = (ViewGroup)getLayoutInflater().inflate(R.layout.new_order_items_header, mItemListView,false);
         mItemListView.addHeaderView(headerView);
 
