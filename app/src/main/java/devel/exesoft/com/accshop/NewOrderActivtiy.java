@@ -43,7 +43,7 @@ public class NewOrderActivtiy extends AppCompatActivity {
         mScanItemFb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NewOrderActivtiy.this.startActivityForResult(new Intent(NewOrderActivtiy.this, SimpleScannerActivity.class), 1);
+                NewOrderActivtiy.this.startActivityForResult(new Intent(NewOrderActivtiy.this, SimpleScannerActivity.class), 2);
             }
         });
 
@@ -69,6 +69,22 @@ public class NewOrderActivtiy extends AppCompatActivity {
                 }
             }
         }
+
+        if (requestCode == 2) {
+            if(resultCode == RESULT_OK) {
+                String itemBarcode = data.getStringExtra("item_barcode");
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("count", "1");
+                    jsonObject.put("name", "Scanned");
+                    jsonObject.put("barcode", itemBarcode);
+                    addItem(jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 
     private void addItem(JSONObject jsonObject) throws  JSONException{

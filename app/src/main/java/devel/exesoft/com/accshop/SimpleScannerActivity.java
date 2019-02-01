@@ -1,5 +1,6 @@
 package devel.exesoft.com.accshop;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,6 +44,11 @@ public class SimpleScannerActivity extends AppCompatActivity implements ZXingSca
         Log.v(TAG, rawResult.getBarcodeFormat().toString()); // Prints the scan format (qrcode, pdf417 etc.)
 
         // If you would like to resume scanning, call this method below:
-        mScannerView.resumeCameraPreview(this);
+        //mScannerView.resumeCameraPreview(this);
+
+        Intent mIntent = new Intent(SimpleScannerActivity.this, NewOrderActivtiy.class);
+        mIntent.putExtra("item_barcode", rawResult.getText());
+        setResult(RESULT_OK, mIntent);
+        SimpleScannerActivity.this.finish();
     }
 }
