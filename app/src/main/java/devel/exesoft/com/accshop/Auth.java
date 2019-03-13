@@ -22,4 +22,8 @@ public class Auth {
     public static  JSONObject user() throws JSONException {
         return  new JSONObject("{}");
     }
+
+    public static void login(){
+
+    }
 }

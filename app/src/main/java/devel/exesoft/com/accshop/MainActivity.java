@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -14,5 +16,6 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.this.startActivity(lIntent);
         this.finish();
     }
+
 
 }
