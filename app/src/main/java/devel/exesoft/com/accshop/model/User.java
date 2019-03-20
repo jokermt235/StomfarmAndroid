@@ -1,8 +1,44 @@
 package devel.exesoft.com.accshop.model;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class User extends RealmObject {
-    private int id;
+    @PrimaryKey
+    private long id;
     private String fio;
+    private String username;
+    private String token;
+
+    public void setFio(String fio){
+        this.fio = fio;
+    }
+
+    public  void setUsername(String username){
+        this.username = username;
+    }
+
+    public  void setToken(String token){
+        this.token  = token;
+    }
+
+    public void setId(long id){
+        this.id = id;
+    }
+
+    public long getId(){
+        return  id;
+    }
+
+    public  String getFio(){
+        return  fio;
+    }
+
+    public String getToken(){
+        return token;
+    }
+
+    public String getUsername(){
+        return username;
+    }
 }

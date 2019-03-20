@@ -1,10 +1,9 @@
-package devel.exesoft.com.accshop;
+package devel.exesoft.com.accshop.view;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -16,7 +15,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.zip.Inflater;
+
+import devel.exesoft.com.accshop.R;
 
 public class NewOrderActivtiy extends AppCompatActivity {
 

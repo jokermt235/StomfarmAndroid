@@ -1,10 +1,12 @@
-package devel.exesoft.com.accshop;
+package devel.exesoft.com.accshop.view;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import devel.exesoft.com.accshop.R;
 
 public class OrdersActivity extends AppCompatActivity {
 

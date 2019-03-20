@@ -1,4 +1,4 @@
-package devel.exesoft.com.accshop;
+package devel.exesoft.com.accshop.view;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +17,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import devel.exesoft.com.accshop.R;
 
 public class ClientsActivity extends AppCompatActivity {
 

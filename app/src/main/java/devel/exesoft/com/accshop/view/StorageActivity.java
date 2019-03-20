@@ -1,9 +1,11 @@
-package devel.exesoft.com.accshop;
+package devel.exesoft.com.accshop.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+
+import devel.exesoft.com.accshop.R;
 
 public class StorageActivity extends AppCompatActivity {
 

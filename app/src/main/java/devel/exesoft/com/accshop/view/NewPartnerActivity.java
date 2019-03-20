@@ -1,13 +1,15 @@
-package devel.exesoft.com.accshop;
+package devel.exesoft.com.accshop.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class PartnerActivity extends AppCompatActivity {
+import devel.exesoft.com.accshop.R;
+
+public class NewPartnerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_partner);
+        setContentView(R.layout.activity_new_partner);
     }
 }

@@ -1,8 +1,12 @@
 package devel.exesoft.com.accshop.model;
 
-public class Login {
+import io.realm.RealmObject;
+
+public class Login{
     private String username;
     private String password;
+    private String token;
+
     public Login(String username, String password) {
         this.username = username;
         this.password = password;
@@ -18,6 +22,10 @@ public class Login {
 
     public  String getUsername(){
         return username;
+    }
+
+    public void setToken(String token){
+        this.token = token;
     }
 
     public String getPassword(){

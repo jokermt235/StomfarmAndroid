@@ -1,12 +1,13 @@
-package devel.exesoft.com.accshop;
+package devel.exesoft.com.accshop.view;
 
 import android.content.Context;
-import android.media.session.PlaybackState;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import devel.exesoft.com.accshop.R;
 
 public class HomeLeftMenuAdapter extends BaseAdapter {
         private Context mContext;

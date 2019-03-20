@@ -1,24 +1,20 @@
-package devel.exesoft.com.accshop;
+package devel.exesoft.com.accshop.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TabHost;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import devel.exesoft.com.accshop.R;
 
 public class HomeActivity extends AppCompatActivity {
 

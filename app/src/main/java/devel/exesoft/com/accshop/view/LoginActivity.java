@@ -1,4 +1,4 @@
-package devel.exesoft.com.accshop;
+package devel.exesoft.com.accshop.view;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.databinding.ActivityLoginBinding;
 import devel.exesoft.com.accshop.view_model.LoginViewModel;
 
@@ -21,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
         ActivityLoginBinding activityLoginBinding = DataBindingUtil.setContentView(LoginActivity.this, R.layout.activity_login);
         activityLoginBinding.setViewModel(new LoginViewModel());
         activityLoginBinding.executePendingBindings();
+
         //setContentView(R.layout.activity_login);
 
         //Button button = (Button) findViewById(R.id.button_login);

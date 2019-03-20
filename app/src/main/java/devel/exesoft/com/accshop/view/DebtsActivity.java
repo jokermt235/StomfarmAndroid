@@ -1,7 +1,9 @@
-package devel.exesoft.com.accshop;
+package devel.exesoft.com.accshop.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import devel.exesoft.com.accshop.R;
 
 public class DebtsActivity extends AppCompatActivity {
 

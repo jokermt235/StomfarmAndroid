@@ -1,8 +1,6 @@
 package devel.exesoft.com.accshop.controller;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -12,8 +10,10 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import devel.exesoft.com.accshop.CustomStringRequest;
-import devel.exesoft.com.accshop.HomeActivity;
+import devel.exesoft.com.accshop.model.User;
+import devel.exesoft.com.accshop.view.CustomStringRequest;
+import devel.exesoft.com.accshop.view.HomeActivity;
+import io.realm.Realm;
 
 public class UserController extends AppController {
 
@@ -44,6 +44,22 @@ public class UserController extends AppController {
                         JSONObject result = new JSONObject(response);
 
                         if(result.getBoolean("success")){
+                            final User  user = new User();
+                            user.setId(result.getJSONObject("data").getLong("id"));
+                            user.setFio(result.getJSONObject("data").getString("fio"));
+                            user.setUsername(result.getJSONObject("data").getString("username"));
+                            user.setToken(result.getJSONObject("data").getString("token"));
+
+                            Realm realm = Realm.getDefaultInstance();
+
+                            realm.executeTransaction(new Realm.Transaction() {
+                                @Override
+                                public void execute(Realm realm) {
+                                    // This will create a new object in Realm or throw an exception if the
+                                    // object already exists (same primary key)
+                                    realm.copyToRealm(user);
+                                }
+                            });
                             Intent intent = new Intent(getInstance(), HomeActivity.class);
                             getInstance().startActivity(intent);
                         }
@@ -62,5 +78,15 @@ public class UserController extends AppController {
         getInstance().getRequestQueue().add(jsonObjectRequest);
     }
 
+    public static boolean isAuthorized(){
+        Realm realm = Realm.getDefaultInstance();
+        User  user = realm.where(User.class).findFirst();
+        if(user != null){
+            realm.close();
+            return true;
+        }
+        realm.close();
+        return false;
+    }
 
 }
