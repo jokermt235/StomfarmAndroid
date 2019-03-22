@@ -1,11 +1,14 @@
 package devel.exesoft.com.accshop.model;
 
+import java.util.Date;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 public class User extends RealmObject {
     @PrimaryKey
     private long id;
+    private Date created = new Date();
     private String fio;
     private String username;
     private String token;

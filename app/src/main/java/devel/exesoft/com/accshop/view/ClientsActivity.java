@@ -1,6 +1,7 @@
 package devel.exesoft.com.accshop.view;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -19,6 +21,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import devel.exesoft.com.accshop.R;
+import devel.exesoft.com.accshop.databinding.ActivityClientsBinding;
+import devel.exesoft.com.accshop.model.Partner;
+import devel.exesoft.com.accshop.view_model.ClientsViewModel;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class ClientsActivity extends AppCompatActivity {
 
@@ -30,48 +37,50 @@ public class ClientsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clients);
-        initPartnersList();
-        mFloatingButton = (FloatingActionButton)findViewById(R.id.floating_button_partners);
+        //setContentView(R.layout.activity_clients);
 
-        mFloatingButton.setOnClickListener(new View.OnClickListener() {
+        ActivityClientsBinding activityClientsBinding = DataBindingUtil.setContentView(this, R.layout.activity_clients);
+        ClientsViewModel clientsViewModel = new ClientsViewModel();
+        activityClientsBinding.setViewModel(clientsViewModel);
+        activityClientsBinding.executePendingBindings();
+
+        initPartnersList(activityClientsBinding);
+
+        activityClientsBinding.floatingButtonPartners.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                //Toast.makeText(getApplicationContext(),"BUTTON CLICKED", Toast.LENGTH_LONG).show();
+            public void onClick(View v) {
                 ClientsActivity.this.startActivity(new Intent(ClientsActivity.this, NewPartnerActivity.class));
             }
         });
     }
 
-    private void initPartnersList()
+    private void initPartnersList(ActivityClientsBinding activityClientsBinding)
     {
-        mListviewPartners = (ListView)findViewById(R.id.listview_partners);
-        mListviewPartners.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        Realm realm = Realm.getDefaultInstance();
 
+        final RealmResults<Partner> clients = realm.where(Partner.class).findAll();
         int[] items = {R.id.partner_id, R.id.textview_partner_name, R.id.textview_partner_phone, R.id.textview_client_debt};
-
         String[] items2 = {"id","Name","Phone","Debt"};
-
         List<HashMap<String, Object>> aList = new ArrayList<HashMap<String, Object>>();
+        if(clients.size() > 0){
+            for(Partner partner: clients) {
+                HashMap<String, Object> hm = new HashMap<String, Object>();
+                hm.put("Id", partner.getId());
+                hm.put("Name", partner.getName());
+                hm.put("Phone",partner.getPhone());
+                hm.put("Debt", "0 СОМ");
+                aList.add(hm);
+            }
 
-        HashMap<String, Object> hm = new HashMap<String, Object>();
-        hm.put("Id", "1");
-        hm.put("Name", "Test1");
-        hm.put("Phone","0701 710 780");
-        hm.put("Debt", "234444 СОМ");
-        HashMap<String, Object> hm2 = new HashMap<String, Object>();
-        hm2.put("Id", "2");
-        hm2.put("Name", "Test2");
-        hm2.put("Phone","0701 710 780");
-        hm2.put("Debt", "234444 СОМ");
-        aList.add(hm);
-        aList.add(hm2);
+        }
+        activityClientsBinding.listviewPartners.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
 
         SimpleAdapter simpleAdapter = new SimpleAdapter(this, aList, R.layout.partners_listview_item_view, items2, items);
+        activityClientsBinding.listviewPartners.setAdapter(simpleAdapter);
+        listViewEvents(activityClientsBinding.listviewPartners);
 
-        mListviewPartners.setAdapter(simpleAdapter);
-        listViewEvents(mListviewPartners);
-        Toolbar mActionBarToolbar = (Toolbar) findViewById(R.id.tool_bar_clients);
+        /*Toolbar mActionBarToolbar = (Toolbar) findViewById(R.id.tool_bar_clients);
         setSupportActionBar(mActionBarToolbar);
 
         LinearLayout linearLayout = findViewById(R.id.linear_layout_partners);
@@ -81,18 +90,17 @@ public class ClientsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"Linear layout click", Toast.LENGTH_LONG).show();
             }
-        });
+        });*/
     }
 
     private void listViewEvents(ListView pListviewPartners){
-        //Toast.makeText(ClientsActivity.this, "HELLO WORLD", Toast.LENGTH_LONG).show();
-
-
         pListviewPartners.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //Toast.makeText(ClientsActivity.this, "HELLO WORLD", Toast.LENGTH_LONG).show();
-                ClientsActivity.this.startActivity(new Intent(ClientsActivity.this, PartnerActivity.class));
+                Intent intent  = new Intent(ClientsActivity.this, PartnerActivity.class);
+                TextView id = (TextView)view.findViewById(R.id.partner_id);
+                intent.putExtra("id", id.getText());
+                ClientsActivity.this.startActivity(intent);
             }
         });
 

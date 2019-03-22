@@ -1,22 +1,26 @@
 package devel.exesoft.com.accshop.model;
 
+import java.util.Date;
+import java.util.UUID;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 public class Partner extends RealmObject {
     @PrimaryKey
-    private long id;
+    private String id = UUID.randomUUID().toString();
+    private Date created = new Date();
     private String name;
     private String phone;
     private String address;
     private String status;
-    private long user_id;
+    private String user_id;
 
-    public void setId(long id){
+    public void setId(String id){
         this.id = id;
     }
 
-    public long getId(){
+    public String getId(){
         return id;
     }
 
@@ -44,11 +48,11 @@ public class Partner extends RealmObject {
         return  address;
     }
 
-    public void setUser_id(long user_id){
+    public void setUser_id(String user_id){
         this.user_id = user_id;
     }
 
-    public long getUser_id(){
+    public String getUser_id(){
         return user_id;
     }
 }

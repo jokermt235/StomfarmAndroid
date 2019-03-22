@@ -10,14 +10,12 @@ public class NewPartnerViewModel extends Observable {
 
     Partner partner;
 
-    NewPartnerViewModel(){
+    public NewPartnerViewModel(){
         partner = new Partner();
     }
-
     public void onSaveClicked(){
-
+        PartnerController.add(getPartner());
     }
-
     public Partner getPartner() {
         return partner;
     }
