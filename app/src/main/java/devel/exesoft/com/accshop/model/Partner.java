@@ -14,7 +14,7 @@ public class Partner extends RealmObject {
     private String phone;
     private String address;
     private String status;
-    private String user_id;
+    private long user_id;
 
     public void setId(String id){
         this.id = id;
@@ -48,11 +48,11 @@ public class Partner extends RealmObject {
         return  address;
     }
 
-    public void setUser_id(String user_id){
+    public void setUser_id(long user_id){
         this.user_id = user_id;
     }
 
-    public String getUser_id(){
+    public long getUser_id(){
         return user_id;
     }
 }

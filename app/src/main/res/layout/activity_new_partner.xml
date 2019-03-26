@@ -92,8 +92,8 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="Тел."
+                        android:inputType="phone"
                         android:text="@={viewModel.partner.phone}"
-                        android:inputType="textPersonName"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@color/colorPrimaryDark" />
                 </LinearLayout>

@@ -6,8 +6,6 @@ import android.util.Log;
 import devel.exesoft.com.accshop.model.Partner;
 import devel.exesoft.com.accshop.model.User;
 import devel.exesoft.com.accshop.view.ClientsActivity;
-import devel.exesoft.com.accshop.view.HomeActivity;
-import devel.exesoft.com.accshop.view.PartnerActivity;
 import io.realm.Realm;
 
 public class PartnerController extends  AppController {
