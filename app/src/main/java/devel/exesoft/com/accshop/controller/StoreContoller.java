@@ -1,13 +1,9 @@
 package devel.exesoft.com.accshop.controller;
 
-import android.content.Intent;
 import android.util.Log;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,7 +11,6 @@ import devel.exesoft.com.accshop.databinding.ActivityStorageBinding;
 import devel.exesoft.com.accshop.model.Store;
 import devel.exesoft.com.accshop.model.User;
 import devel.exesoft.com.accshop.view.CustomStringRequest;
-import devel.exesoft.com.accshop.view.HomeActivity;
 import io.realm.Realm;
 
 public class StoreContoller extends AppController {

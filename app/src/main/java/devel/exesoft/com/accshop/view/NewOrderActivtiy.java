@@ -43,7 +43,8 @@ public class NewOrderActivtiy extends AppCompatActivity {
         mScanItemFb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NewOrderActivtiy.this.startActivityForResult(new Intent(NewOrderActivtiy.this, SimpleScannerActivity.class), 2);
+                NewOrderActivtiy.this.startActivityForResult(
+                        new Intent(NewOrderActivtiy.this, SimpleScannerActivity.class), 2);
             }
         });
 

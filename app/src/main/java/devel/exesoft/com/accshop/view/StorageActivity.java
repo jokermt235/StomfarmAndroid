@@ -1,5 +1,6 @@
 package devel.exesoft.com.accshop.view;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,11 +16,17 @@ import io.realm.Realm;
 
 public class StorageActivity extends AppCompatActivity {
 
+    private static String TAG = "StorageActivity";
+
+    private ActivityStorageBinding activityStorageBinding;
+    private StoreViewModel viewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityStorageBinding  activityStorageBinding = DataBindingUtil.setContentView(this, R.layout.activity_storage);
-        activityStorageBinding.setViewModel( new StoreViewModel(this));
+        viewModel = new StoreViewModel(this);
+        activityStorageBinding.setViewModel( viewModel);
         activityStorageBinding.executePendingBindings();
         setSupportActionBar(activityStorageBinding.storageToolbar);
         setStore(activityStorageBinding);
@@ -37,6 +44,13 @@ public class StorageActivity extends AppCompatActivity {
                 realm.close();
             }
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        viewModel.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
