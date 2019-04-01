@@ -1,6 +1,7 @@
 package devel.exesoft.com.accshop.view;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import devel.exesoft.com.accshop.R;
+import devel.exesoft.com.accshop.databinding.ActivityNewOrderBinding;
+import devel.exesoft.com.accshop.view_model.NewOrderModelView;
 
 public class NewOrderActivtiy extends AppCompatActivity {
 
@@ -26,7 +29,11 @@ public class NewOrderActivtiy extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_order);
+        //setContentView(R.layout.activity_new_order);
+
+        ActivityNewOrderBinding activityNewOrderBinding = DataBindingUtil.setContentView(this, R.layout.activity_new_order);
+        activityNewOrderBinding.setViewModel(new NewOrderModelView());
+
         ListView mItemListView = (ListView)findViewById(R.id.new_order_listview_items);
 
         mFloatingAddItemMannual = (FloatingActionButton)findViewById(R.id.new_order_mannual_fb);
