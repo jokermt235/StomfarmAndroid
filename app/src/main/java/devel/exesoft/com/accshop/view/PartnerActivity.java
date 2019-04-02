@@ -25,9 +25,9 @@ public class PartnerActivity extends AppCompatActivity {
             Realm realm = Realm.getDefaultInstance();
             Partner partner = realm.where(Partner.class).notEqualTo("id", id).findFirst();
             if(partner != null){
-                activityPartnerBinding.partnerName.setText(partner.getName());
                 activityPartnerBinding.parnterPhone.setText(partner.getPhone());
                 activityPartnerBinding.partnerAddress.setText(partner.getAddres());
+                activityPartnerBinding.toolbarPartner.setTitle(partner.getName());
             }
         }
 
