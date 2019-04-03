@@ -132,7 +132,7 @@
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Заказы" />
+                android:text="Позиции" />
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
@@ -142,7 +142,7 @@
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Позиции" />
+                android:text="Продажи" />
         </android.support.design.widget.TabLayout>
 
     </LinearLayout>
@@ -158,6 +158,7 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="@{()-> viewModel.onScanClicked()}"/>
 </android.support.constraint.ConstraintLayout>
 </layout>
