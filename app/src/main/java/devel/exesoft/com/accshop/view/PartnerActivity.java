@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import devel.exesoft.com.accshop.R;
+import devel.exesoft.com.accshop.databinding.ActivityMainBinding;
 import devel.exesoft.com.accshop.databinding.ActivityPartnerBinding;
 import devel.exesoft.com.accshop.model.Partner;
 import devel.exesoft.com.accshop.view_model.PartnerViewModel;
@@ -18,10 +19,12 @@ public class PartnerActivity extends AppCompatActivity {
 
     private PartnerViewModel viewModel;
 
+    public ActivityPartnerBinding activityPartnerBinding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityPartnerBinding activityPartnerBinding = DataBindingUtil.setContentView(this, R.layout.activity_partner);
+        activityPartnerBinding = DataBindingUtil.setContentView(this, R.layout.activity_partner);
         viewModel = new PartnerViewModel(this);
         activityPartnerBinding.setViewModel(viewModel);
         activityPartnerBinding.executePendingBindings();

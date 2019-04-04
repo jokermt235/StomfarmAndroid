@@ -6,20 +6,25 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.view.PartnerActivity;
 
 public class PartnerItemAdapter extends BaseAdapter {
 
-    private List<String> items = new ArrayList<>();
+    //private ArrayList<String,String> items = new ArrayList<String, String>();
+
+    private Map<String, String> items = new HashMap<String, String>();
 
     private PartnerActivity mContext;
 
     private ViewHolder viewHolder;
 
-    public PartnerItemAdapter(PartnerActivity pContext){
+    public PartnerItemAdapter(PartnerActivity pContext)
+    {
         mContext = pContext;
     }
 
@@ -30,7 +35,7 @@ public class PartnerItemAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return items.get(i);
     }
 
     @Override
@@ -42,12 +47,12 @@ public class PartnerItemAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         if(view == null){
             view = mContext.getLayoutInflater().inflate(R.layout.partner_scaned_item, viewGroup);
-
             viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder)view.getTag();
         }
+        viewHolder.scanedItemName.setText("");
         return view;
     }
 

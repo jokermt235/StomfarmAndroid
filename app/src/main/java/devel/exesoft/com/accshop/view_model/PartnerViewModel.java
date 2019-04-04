@@ -2,10 +2,14 @@ package devel.exesoft.com.accshop.view_model;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.util.Log;
 
 import java.util.Observable;
 
+import devel.exesoft.com.accshop.adapters.PartnerPagerAdapter;
+import devel.exesoft.com.accshop.controller.ItemController;
+import devel.exesoft.com.accshop.model.Item;
 import devel.exesoft.com.accshop.view.PartnerActivity;
 import devel.exesoft.com.accshop.view.SimpleScannerActivity;
 
@@ -18,6 +22,13 @@ public class PartnerViewModel extends Observable {
     private  static int REQUST_CODE_MANNUAL = 2;
     public PartnerViewModel(PartnerActivity pContext){
         mContext = pContext;
+        mContext.activityPartnerBinding.partnerViewPager.setAdapter(
+                new PartnerPagerAdapter(mContext.getSupportFragmentManager(), mContext.activityPartnerBinding.tablayoutPartner.getTabCount())
+        );
+
+        mContext.activityPartnerBinding.partnerViewPager.setOnPageChangeListener(
+                new TabLayout.TabLayoutOnPageChangeListener(mContext.activityPartnerBinding.tablayoutPartner)
+        );
     }
     public void onScanClicked(){
         mContext.startActivityForResult(
@@ -27,7 +38,15 @@ public class PartnerViewModel extends Observable {
     public  void onActivityResult(int requestCode, int resultCode, Intent data){
         if(resultCode == RESULT_OK){
             if(requestCode == REQUEST_CODE_SCANER){
-                String[] itemBarcode = data.getStringArrayExtra("item_barcodes");
+                String[] itemBarcodes = data.getStringArrayExtra("item_barcodes");
+                if(itemBarcodes != null) {
+                    for (String barcode : itemBarcodes) {
+                        Item item = ItemController.getItemByBarcode(barcode);
+                    }
+
+
+                }
+
             }
 
             if(requestCode == REQUST_CODE_MANNUAL){

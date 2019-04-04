@@ -23,8 +23,16 @@ public class ItemController extends AppController {
 
     private static String NAME = "Items";
 
-    public static void getItemByBarcode(String barcode)
+    public static Item getItemByBarcode(String barcode){
+        Realm realm = Realm.getDefaultInstance();
+        Item  item = realm.where(Item.class).equalTo("barcode", barcode).findFirst();
+        realm.close();
+        return  item;
+    }
+
+    public static void getItemByBarcode()
     {
+        String barcode = "";
         String url = getInstance().getString(R.string.server_url) + "/" + NAME + "/"  + "relocation";
 
         JSONObject params  = new JSONObject();

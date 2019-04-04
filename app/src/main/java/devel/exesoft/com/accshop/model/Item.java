@@ -17,6 +17,10 @@ public class Item extends RealmObject {
         name = pName;
     }
 
+    public String getName(){
+        return  name;
+    }
+
     public void setAcc_code(String pAccCode){
         acc_code = pAccCode;
     }
