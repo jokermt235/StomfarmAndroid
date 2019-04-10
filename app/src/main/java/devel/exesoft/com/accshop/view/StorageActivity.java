@@ -5,7 +5,9 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.controller.StoreContoller;
@@ -18,32 +20,18 @@ public class StorageActivity extends AppCompatActivity {
 
     private static String TAG = "StorageActivity";
 
-    private ActivityStorageBinding activityStorageBinding;
+    public ActivityStorageBinding activityStorageBinding;
     private StoreViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityStorageBinding  activityStorageBinding = DataBindingUtil.setContentView(this, R.layout.activity_storage);
+        activityStorageBinding = DataBindingUtil.setContentView(this, R.layout.activity_storage);
         viewModel = new StoreViewModel(this);
         activityStorageBinding.setViewModel( viewModel);
         activityStorageBinding.executePendingBindings();
         setSupportActionBar(activityStorageBinding.storageToolbar);
-        setStore(activityStorageBinding);
 
-    }
-
-    private void setStore(ActivityStorageBinding dataBindingUtil){
-        if(!StoreContoller.isExist()){
-            StoreContoller.getRemoteStore(dataBindingUtil);
-        }else{
-            Realm realm = Realm.getDefaultInstance();
-            Store store = realm.where(Store.class).findFirst();
-            if(store != null){
-                dataBindingUtil.storageToolbar.setTitle(store.getName());
-                realm.close();
-            }
-        }
     }
 
     @Override
@@ -56,6 +44,24 @@ public class StorageActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.storage_toolbar_menu, menu);
+        menu.getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Log.d(TAG, "Syncronized clicked");
+                return false;
+            }
+        });
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.storage_toolbar_item_sync: viewModel.onSyncClicked(); return true;
+            case R.id.storage_toolbar_item_export: viewModel.onExportClicked(); return true;
+        }
+
+            return super.onOptionsItemSelected(item);
+    }
+
 }

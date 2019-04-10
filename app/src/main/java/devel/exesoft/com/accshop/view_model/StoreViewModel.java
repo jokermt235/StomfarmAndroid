@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.util.Log;
 
+import devel.exesoft.com.accshop.controller.StoreContoller;
+import devel.exesoft.com.accshop.model.Store;
 import devel.exesoft.com.accshop.view.SimpleScannerActivity;
 import devel.exesoft.com.accshop.view.StorageActivity;
+import io.realm.Realm;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -21,6 +24,11 @@ public class StoreViewModel extends BaseObservable {
 
     public StoreViewModel(StorageActivity pContext){
         mContext = pContext;
+        if(!StoreContoller.isExist()){
+            mContext.activityStorageBinding.storageToolbar.setTitle("Необходима синхронизация...");
+        }else{
+            setStore();
+        }
     }
 
     private StorageActivity getContext(){
@@ -41,6 +49,23 @@ public class StoreViewModel extends BaseObservable {
             if(requestCode == REQUST_CODE_MANNUAL){
             }
         }
+    }
+
+    public void onSyncClicked(){
+    }
+
+    public void onExportClicked(){
+
+    }
+
+    public void setStore(){
+        Realm realm = Realm.getDefaultInstance();
+        Store store = realm.where(Store.class).findFirst();
+        if(store != null){
+            mContext.activityStorageBinding.storageToolbar.setTitle(store.getName());
+            realm.close();
+        }
+
     }
 
 }

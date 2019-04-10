@@ -19,6 +19,8 @@ public class StoreContoller extends AppController {
 
     private static String TAG = "StoreController";
 
+    private static String NAME = "Storages";
+
     public static boolean isExist(){
         Realm realm = Realm.getDefaultInstance();
         Store store = realm.where(Store.class).findFirst();

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
@@ -47,6 +48,10 @@ public class CustomStringRequest extends StringRequest {
         super(url, listener, errorListener);
     }
 
+    public void onErrorResponse(VolleyError error){
+        Log.d(TAG, "Parent response error : " + error.getLocalizedMessage() );
+    }
+
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError{
 
@@ -62,6 +67,7 @@ public class CustomStringRequest extends StringRequest {
     @Override
 
     public byte[] getBody() throws AuthFailureError{
+
 
         return body.toString().getBytes();
     }
@@ -89,4 +95,5 @@ public class CustomStringRequest extends StringRequest {
                 ? resultString.substring(0, resultString.length() - 1)
                 : resultString;
     }
+
 }
