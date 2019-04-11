@@ -31,7 +31,17 @@ public class ItemController extends AppController {
         return  item;
     }
 
-    public static JSONArray getAllItems(){
+    public static void trancate(){
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.delete(Item.class);
+            }
+        });
+    }
+
+    public static void getAllItems(){
         String url = getInstance().getString(R.string.server_url) + "/" + NAME;
         JSONObject params  = new JSONObject();
         final Realm realm = Realm.getDefaultInstance();
@@ -90,8 +100,6 @@ public class ItemController extends AppController {
         }catch (UnsupportedEncodingException e){
             Log.d(TAG, e.getStackTrace().toString());
         }
-
-        return new JSONArray();
     }
 
     public static void getItemByBarcode()

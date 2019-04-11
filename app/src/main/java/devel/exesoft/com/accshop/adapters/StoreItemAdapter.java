@@ -12,21 +12,20 @@ import java.util.Map;
 
 import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.view.PartnerActivity;
+import devel.exesoft.com.accshop.view.StorageActivity;
 
-public class PartnerItemAdapter extends BaseAdapter {
+public class StoreItemAdapter extends BaseAdapter {
+    private List<Map<String, String>> items = new ArrayList();
 
 
-    private Map<String, String> items = new HashMap<String, String>();
-
-    private PartnerActivity mContext;
+    private StorageActivity mContext;
 
     private ViewHolder viewHolder;
 
-    public PartnerItemAdapter(PartnerActivity pContext)
+    public StoreItemAdapter(StorageActivity pContext)
     {
         mContext = pContext;
     }
-
     @Override
     public int getCount() {
         return items.size();
@@ -45,13 +44,13 @@ public class PartnerItemAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if(view == null){
-            view = mContext.getLayoutInflater().inflate(R.layout.partner_scaned_item, viewGroup);
+            view = mContext.getLayoutInflater().inflate(R.layout.store_list_item, viewGroup);
             viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder)view.getTag();
         }
-        viewHolder.scanedItemName.setText("");
+
         return view;
     }
 

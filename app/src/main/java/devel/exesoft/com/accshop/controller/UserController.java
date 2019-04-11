@@ -10,6 +10,7 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.model.User;
 import devel.exesoft.com.accshop.view.CustomStringRequest;
 import devel.exesoft.com.accshop.view.HomeActivity;
@@ -19,9 +20,11 @@ public class UserController extends AppController {
 
     private static  final String TAG  = "UserController";
 
+    private static  final String NAME = "Users";
+
     public static void login(String username, String password) {
 
-        String url = "http://test.exesoft.org/RestService/api/users/token/";
+        String url = getInstance().getString(R.string.server_url) + "/" + NAME +"/token";
 
         JSONObject params  = new JSONObject();
 

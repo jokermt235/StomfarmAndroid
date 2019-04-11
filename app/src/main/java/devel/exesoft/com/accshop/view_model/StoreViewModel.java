@@ -4,8 +4,23 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.util.Log;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+
+import devel.exesoft.com.accshop.R;
+import devel.exesoft.com.accshop.controller.AppController;
+import devel.exesoft.com.accshop.controller.ItemController;
 import devel.exesoft.com.accshop.controller.StoreContoller;
+import devel.exesoft.com.accshop.model.Item;
 import devel.exesoft.com.accshop.model.Store;
+import devel.exesoft.com.accshop.model.User;
+import devel.exesoft.com.accshop.view.CustomStringRequest;
 import devel.exesoft.com.accshop.view.SimpleScannerActivity;
 import devel.exesoft.com.accshop.view.StorageActivity;
 import io.realm.Realm;
@@ -21,6 +36,8 @@ public class StoreViewModel extends BaseObservable {
     private static int REQUST_CODE_MANNUAL = 2;
 
     private static String TAG = "StoreViewModel";
+
+    private static String NAME  = "Items";
 
     public StoreViewModel(StorageActivity pContext){
         mContext = pContext;
@@ -52,6 +69,72 @@ public class StoreViewModel extends BaseObservable {
     }
 
     public void onSyncClicked(){
+        String url = AppController.getInstance().getString(R.string.server_url) + "/" + NAME;
+        JSONObject params  = new JSONObject();
+        final Realm realm = Realm.getDefaultInstance();
+        User user = realm.where(User.class).findFirst();
+        try {
+            if(user != null) {
+                params.put("token", user.getToken());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            final CustomStringRequest jsonObjectRequest = new CustomStringRequest(url, params, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.e(TAG, response);
+                    if (response != null) {
+                        try {
+                            JSONObject result = new JSONObject(response);
+
+                            if (result.getBoolean("success")) {
+                                JSONArray data = result.getJSONArray("data");
+                                Log.d(TAG, data.toString());
+
+                                if(data.length() >= 0) {
+                                    ItemController.trancate();
+                                    for(int i=0;i< data.length(); i++) {
+                                        JSONObject serverItem = data.getJSONObject(i);
+                                        final Item item = new Item();
+                                        item.setAcc_code(serverItem.getString("acc_code"));
+                                        item.setName(serverItem.getString("name"));
+                                        item.setBarcode(serverItem.getString("barcode"));
+                                        item.setCount(serverItem.getInt("count"));
+                                        item.setUnit_string(serverItem.getString("unit_string"));
+                                        realm.executeTransaction(new Realm.Transaction() {
+                                            @Override
+                                            public void execute(Realm realm) {
+                                                // This will create a new object in Realm or throw an exception if the
+                                                // object already exists (same primary key)
+                                                realm.copyToRealm(item);
+                                                //activityStorageBinding.storageToolbar.setTitle(store.getName());
+                                            }
+                                        });
+                                    }
+                                    fillItemList();
+                                    realm.close();
+                                }
+                            }
+                        } catch (Exception excp) {
+                            Log.e(TAG, excp.toString());
+                        }
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    this.onErrorResponse(error);
+                    Log.e(TAG, error.toString());
+                }
+            });
+
+            AppController.getInstance().getRequestQueue().add(jsonObjectRequest);
+        }catch (UnsupportedEncodingException e){
+            Log.d(TAG, e.getStackTrace().toString());
+        }
     }
 
     public void onExportClicked(){
@@ -65,6 +148,10 @@ public class StoreViewModel extends BaseObservable {
             mContext.activityStorageBinding.storageToolbar.setTitle(store.getName());
             realm.close();
         }
+
+    }
+
+    public void fillItemList(){
 
     }
 

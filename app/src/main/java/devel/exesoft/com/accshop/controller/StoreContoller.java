@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
+import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.databinding.ActivityStorageBinding;
 import devel.exesoft.com.accshop.model.Store;
 import devel.exesoft.com.accshop.model.User;
@@ -34,7 +35,7 @@ public class StoreContoller extends AppController {
 
     public static void getRemoteStore(final ActivityStorageBinding activityStorageBinding){
 
-        String url = "http://test.exesoft.org/RestService/api/storages/view";
+        String url = getInstance().getString(R.string.server_url) + "/" + NAME + "/view";
 
         JSONObject params  = new JSONObject();
         final Realm realm = Realm.getDefaultInstance();
