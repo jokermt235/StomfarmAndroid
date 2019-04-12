@@ -32,7 +32,7 @@ public class StoreItemAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
+    public Map<String,String> getItem(int i) {
         return items.get(i);
     }
 
@@ -51,17 +51,26 @@ public class StoreItemAdapter extends BaseAdapter {
             viewHolder = (ViewHolder)view.getTag();
         }
 
+        viewHolder.storeItemName.setText(getItem(i).get("name"));
+        viewHolder.storeItemBarcode.setText(getItem(i).get("barcode"));
+        viewHolder.storeItemPrice.setText(getItem(i).get("price"));
+        viewHolder.storeItemCount.setText(getItem(i).get("count"));
+        viewHolder.storeItemUnit.setText(getItem(i).get("unit"));
         return view;
     }
 
     private  class ViewHolder{
-        final TextView scanedItemName;
-        final TextView scanedItemBarcode;
-        final TextView getScanedItemCount;
+        final TextView storeItemName;
+        final TextView storeItemBarcode;
+        final TextView storeItemCount;
+        final TextView storeItemPrice;
+        final TextView storeItemUnit;
         private ViewHolder(View view) {
-            this.scanedItemName = (TextView)view.findViewById(R.id.scaned_item_name);
-            this.scanedItemBarcode = (TextView)view.findViewById(R.id.scaned_barcode);
-            this.getScanedItemCount = (TextView)view.findViewById(R.id.scaned_item_count);
+            storeItemName = (TextView)view.findViewById(R.id.storeItemName);
+            storeItemBarcode = (TextView)view.findViewById(R.id.storeItemBarcode);
+            storeItemCount = (TextView)view.findViewById(R.id.storeItemCount);
+            storeItemPrice = (TextView)view.findViewById(R.id.storeItemPrice);
+            storeItemUnit = (TextView)view.findViewById(R.id.storeItemUnit);
         }
     }
 }
