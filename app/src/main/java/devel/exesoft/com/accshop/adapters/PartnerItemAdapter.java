@@ -11,20 +11,22 @@ import java.util.List;
 import java.util.Map;
 
 import devel.exesoft.com.accshop.R;
+import devel.exesoft.com.accshop.model.Item;
 import devel.exesoft.com.accshop.view.PartnerActivity;
 
 public class PartnerItemAdapter extends BaseAdapter {
 
 
-    private Map<String, String> items = new HashMap<String, String>();
+    private ArrayList<Item> items = new ArrayList();
 
     private PartnerActivity mContext;
 
     private ViewHolder viewHolder;
 
-    public PartnerItemAdapter(PartnerActivity pContext)
+    public PartnerItemAdapter(PartnerActivity pContext, ArrayList<Item> pItems)
     {
         mContext = pContext;
+        items = pItems;
     }
 
     @Override
@@ -33,7 +35,7 @@ public class PartnerItemAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
+    public Item getItem(int i) {
         return items.get(i);
     }
 
@@ -51,7 +53,9 @@ public class PartnerItemAdapter extends BaseAdapter {
         }else{
             viewHolder = (ViewHolder)view.getTag();
         }
-        viewHolder.scanedItemName.setText("");
+        viewHolder.scanedItemName.setText(getItem(i).getName());
+        viewHolder.scanedItemBarcode.setText(getItem(i).getBarcode());
+        viewHolder.getScanedItemCount.setText(getItem(i).getCount());
         return view;
     }
 

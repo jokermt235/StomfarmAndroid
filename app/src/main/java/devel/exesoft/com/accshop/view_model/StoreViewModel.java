@@ -24,6 +24,7 @@ import devel.exesoft.com.accshop.view.CustomStringRequest;
 import devel.exesoft.com.accshop.view.SimpleScannerActivity;
 import devel.exesoft.com.accshop.view.StorageActivity;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -152,7 +153,11 @@ public class StoreViewModel extends BaseObservable {
     }
 
     public void fillItemList(){
+        Realm realm = Realm.getDefaultInstance();
+        final RealmResults<Item> puppies = realm.where(Item.class).findAll();
+        for(Item item : puppies){
 
+        }
     }
 
 }

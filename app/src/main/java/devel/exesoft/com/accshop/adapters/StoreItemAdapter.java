@@ -6,34 +6,32 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import devel.exesoft.com.accshop.R;
-import devel.exesoft.com.accshop.view.PartnerActivity;
 import devel.exesoft.com.accshop.view.StorageActivity;
 
 public class StoreItemAdapter extends BaseAdapter {
-    private List<Map<String, String>> items = new ArrayList();
+    private List<Map<String, String>> mItems = new ArrayList();
 
 
     private StorageActivity mContext;
 
     private ViewHolder viewHolder;
 
-    public StoreItemAdapter(StorageActivity pContext)
+    public StoreItemAdapter(StorageActivity pContext, ArrayList items)
     {
         mContext = pContext;
     }
     @Override
     public int getCount() {
-        return items.size();
+        return mItems.size();
     }
 
     @Override
     public Map<String,String> getItem(int i) {
-        return items.get(i);
+        return mItems.get(i);
     }
 
     @Override

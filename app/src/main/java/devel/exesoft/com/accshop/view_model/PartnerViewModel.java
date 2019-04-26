@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Observable;
 
+import devel.exesoft.com.accshop.adapters.PartnerItemAdapter;
 import devel.exesoft.com.accshop.adapters.PartnerPagerAdapter;
 import devel.exesoft.com.accshop.controller.ItemController;
 import devel.exesoft.com.accshop.model.Item;
@@ -20,6 +22,7 @@ public class PartnerViewModel extends Observable {
     private PartnerActivity mContext;
     private static int REQUEST_CODE_SCANER = 1;
     private  static int REQUST_CODE_MANNUAL = 2;
+    private ArrayList<Item> items = new ArrayList();
     public PartnerViewModel(PartnerActivity pContext){
         mContext = pContext;
         mContext.activityPartnerBinding.partnerViewPager.setAdapter(
@@ -42,13 +45,15 @@ public class PartnerViewModel extends Observable {
                 if(itemBarcodes != null) {
                     for (String barcode : itemBarcodes) {
                         Item item = ItemController.getItemByBarcode(barcode);
+                        items.add(item);
                     }
-
-
                 }
 
-            }
+                if(items.size() > 0){
+                    PartnerItemAdapter partnerItemAdapter = new PartnerItemAdapter(mContext, items);
 
+                }
+            }
             if(requestCode == REQUST_CODE_MANNUAL){
             }
         }

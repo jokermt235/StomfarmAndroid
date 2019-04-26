@@ -79,18 +79,6 @@ public class ClientsActivity extends AppCompatActivity {
         SimpleAdapter simpleAdapter = new SimpleAdapter(this, aList, R.layout.partners_listview_item_view, items2, items);
         activityClientsBinding.listviewPartners.setAdapter(simpleAdapter);
         listViewEvents(activityClientsBinding.listviewPartners);
-
-        /*Toolbar mActionBarToolbar = (Toolbar) findViewById(R.id.tool_bar_clients);
-        setSupportActionBar(mActionBarToolbar);
-
-        LinearLayout linearLayout = findViewById(R.id.linear_layout_partners);
-
-        linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"Linear layout click", Toast.LENGTH_LONG).show();
-            }
-        });*/
     }
 
     private void listViewEvents(ListView pListviewPartners){
