@@ -49,7 +49,11 @@ public class CustomStringRequest extends StringRequest {
     }
 
     public void onErrorResponse(VolleyError error){
-        Log.d(TAG, "Parent response error : " + error.getLocalizedMessage() );
+        try {
+            Log.d(TAG, "Error in parent StringRequest : " + error.toString());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -81,7 +85,7 @@ public class CustomStringRequest extends StringRequest {
 
             for (Iterator<String> it = params.keys(); it.hasNext(); ) {
                 Object entry = it.next();
-                result.append(URLEncoder.encode(params.get(entry.toString()).toString(), "UTF-8"));
+                result.append(URLEncoder.encode(entry.toString(), "UTF-8"));
                 result.append("=");
                 result.append(URLEncoder.encode(params.get(entry.toString()).toString(), "UTF-8"));
                 result.append("&");
@@ -91,6 +95,7 @@ public class CustomStringRequest extends StringRequest {
         }
 
         String resultString = "?" + result.toString();
+        Log.d(TAG, resultString);
         return resultString.length() > 0
                 ? resultString.substring(0, resultString.length() - 1)
                 : resultString;

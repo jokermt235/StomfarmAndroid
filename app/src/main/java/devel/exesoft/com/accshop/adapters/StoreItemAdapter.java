@@ -1,5 +1,6 @@
 package devel.exesoft.com.accshop.adapters;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,10 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 import devel.exesoft.com.accshop.R;
+import devel.exesoft.com.accshop.model.Item;
 import devel.exesoft.com.accshop.view.StorageActivity;
 
 public class StoreItemAdapter extends BaseAdapter {
-    private List<Map<String, String>> mItems = new ArrayList();
+    private List<Item> mItems = new ArrayList();
 
 
     private StorageActivity mContext;
@@ -23,6 +25,7 @@ public class StoreItemAdapter extends BaseAdapter {
     public StoreItemAdapter(StorageActivity pContext, ArrayList items)
     {
         mContext = pContext;
+        mItems = items;
     }
     @Override
     public int getCount() {
@@ -30,7 +33,7 @@ public class StoreItemAdapter extends BaseAdapter {
     }
 
     @Override
-    public Map<String,String> getItem(int i) {
+    public Item getItem(int i) {
         return mItems.get(i);
     }
 
@@ -42,18 +45,18 @@ public class StoreItemAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if(view == null){
-            view = mContext.getLayoutInflater().inflate(R.layout.store_list_item, viewGroup);
+            view = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.store_list_item, viewGroup , false);
             viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder)view.getTag();
         }
 
-        viewHolder.storeItemName.setText(getItem(i).get("name"));
-        viewHolder.storeItemBarcode.setText(getItem(i).get("barcode"));
-        viewHolder.storeItemPrice.setText(getItem(i).get("price"));
-        viewHolder.storeItemCount.setText(getItem(i).get("count"));
-        viewHolder.storeItemUnit.setText(getItem(i).get("unit"));
+        viewHolder.storeItemName.setText(getItem(i).getName());
+        viewHolder.storeItemBarcode.setText(getItem(i).getBarcode());
+        viewHolder.storeItemPrice.setText("price");
+        viewHolder.storeItemCount.setText(String.valueOf(getItem(i).getCount()));
+        viewHolder.storeItemUnit.setText(getItem(i).getUnit_string());
         return view;
     }
 

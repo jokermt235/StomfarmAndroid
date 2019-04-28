@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.util.Log;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Observable;
 
+import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.adapters.PartnerItemAdapter;
 import devel.exesoft.com.accshop.adapters.PartnerPagerAdapter;
 import devel.exesoft.com.accshop.controller.ItemController;
@@ -51,7 +53,8 @@ public class PartnerViewModel extends Observable {
 
                 if(items.size() > 0){
                     PartnerItemAdapter partnerItemAdapter = new PartnerItemAdapter(mContext, items);
-
+                    ListView listView = (ListView)mContext.findViewById(R.id.scaned_item_list);
+                    listView.setAdapter(partnerItemAdapter);
                 }
             }
             if(requestCode == REQUST_CODE_MANNUAL){

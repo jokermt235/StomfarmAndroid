@@ -3,6 +3,7 @@ package devel.exesoft.com.accshop.view_model;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.util.Log;
+import android.widget.ListView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -12,8 +13,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 import devel.exesoft.com.accshop.R;
+import devel.exesoft.com.accshop.adapters.StoreItemAdapter;
 import devel.exesoft.com.accshop.controller.AppController;
 import devel.exesoft.com.accshop.controller.ItemController;
 import devel.exesoft.com.accshop.controller.StoreContoller;
@@ -47,6 +50,7 @@ public class StoreViewModel extends BaseObservable {
         }else{
             setStore();
         }
+        fillItemList();
     }
 
     private StorageActivity getContext(){
@@ -103,7 +107,7 @@ public class StoreViewModel extends BaseObservable {
                                         item.setAcc_code(serverItem.getString("acc_code"));
                                         item.setName(serverItem.getString("name"));
                                         item.setBarcode(serverItem.getString("barcode"));
-                                        item.setCount(serverItem.getInt("count"));
+                                        item.setCount(serverItem.getInt("amount"));
                                         item.setUnit_string(serverItem.getString("unit_string"));
                                         realm.executeTransaction(new Realm.Transaction() {
                                             @Override
@@ -127,14 +131,13 @@ public class StoreViewModel extends BaseObservable {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    this.onErrorResponse(error);
-                    Log.e(TAG, error.toString());
+
                 }
             });
 
             AppController.getInstance().getRequestQueue().add(jsonObjectRequest);
         }catch (UnsupportedEncodingException e){
-            Log.d(TAG, e.getStackTrace().toString());
+            e.printStackTrace();
         }
     }
 
@@ -154,10 +157,14 @@ public class StoreViewModel extends BaseObservable {
 
     public void fillItemList(){
         Realm realm = Realm.getDefaultInstance();
-        final RealmResults<Item> puppies = realm.where(Item.class).findAll();
-        for(Item item : puppies){
-
+        final RealmResults<Item> items = realm.where(Item.class).findAll();
+        ListView listView = (ListView)mContext.findViewById(R.id.storage_items);
+        ArrayList<Item> list = new ArrayList();
+        for(Item item : items){
+            list.add(item);
         }
+        StoreItemAdapter storeItemAdapter = new StoreItemAdapter(mContext,list);
+        listView.setAdapter(storeItemAdapter);
     }
 
 }
