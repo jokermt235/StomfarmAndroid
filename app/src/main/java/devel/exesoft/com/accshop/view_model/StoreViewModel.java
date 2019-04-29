@@ -21,6 +21,7 @@ import devel.exesoft.com.accshop.controller.AppController;
 import devel.exesoft.com.accshop.controller.ItemController;
 import devel.exesoft.com.accshop.controller.StoreContoller;
 import devel.exesoft.com.accshop.model.Item;
+import devel.exesoft.com.accshop.model.Partner;
 import devel.exesoft.com.accshop.model.Store;
 import devel.exesoft.com.accshop.model.User;
 import devel.exesoft.com.accshop.view.CustomStringRequest;
@@ -50,7 +51,7 @@ public class StoreViewModel extends BaseObservable {
         }else{
             setStore();
         }
-        fillItemList();
+        onSyncClicked();
     }
 
     private StorageActivity getContext(){
@@ -85,7 +86,7 @@ public class StoreViewModel extends BaseObservable {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        mContext.activityStorageBinding.storageToolbar.setTitle("Идет загрузка ...");
         try {
             final CustomStringRequest jsonObjectRequest = new CustomStringRequest(url, params, new Response.Listener<String>() {
                 @Override
@@ -119,6 +120,7 @@ public class StoreViewModel extends BaseObservable {
                                             }
                                         });
                                     }
+                                    mContext.activityStorageBinding.storageToolbar.setTitle("");
                                     fillItemList();
                                     realm.close();
                                 }
@@ -166,5 +168,6 @@ public class StoreViewModel extends BaseObservable {
         StoreItemAdapter storeItemAdapter = new StoreItemAdapter(mContext,list);
         listView.setAdapter(storeItemAdapter);
     }
+
 
 }
