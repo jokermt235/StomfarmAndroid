@@ -169,5 +169,36 @@ public class StoreViewModel extends BaseObservable {
         listView.setAdapter(storeItemAdapter);
     }
 
+    private void synchServerData(){
+        String url = AppController.getInstance().getString(R.string.server_url) + "/synch" ;
+        JSONArray params = new JSONArray();
 
+        try{
+            final CustomStringRequest jsonObjectRequest = new CustomStringRequest(url, params, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.e(TAG, response);
+                    if (response != null) {
+                        try {
+                            JSONObject result = new JSONObject(response);
+                            if (result.getBoolean("success")) {
+                                Log.d(TAG, "Datasynchronized successiful!");
+                            }
+                        } catch (Exception excp) {
+                            Log.e(TAG, excp.toString());
+                        }
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+
+            AppController.getInstance().getRequestQueue().add(jsonObjectRequest);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

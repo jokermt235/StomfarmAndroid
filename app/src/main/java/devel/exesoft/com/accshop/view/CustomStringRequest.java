@@ -7,6 +7,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,6 +24,7 @@ public class CustomStringRequest extends StringRequest {
 
     private static String TAG = "CustomStringRequest";
     private JSONObject body;
+    private JSONArray bodyArray;
     public void setBody(JSONObject pBody){
         body = pBody;
     }
@@ -31,6 +33,13 @@ public class CustomStringRequest extends StringRequest {
 
         body = params;
     }
+
+    public CustomStringRequest(String url, JSONArray params, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+        super(Method.POST, url, listener, errorListener);
+
+        bodyArray = params;
+    }
+
 
     public CustomStringRequest(String url,JSONObject params, Response.Listener<String> listener, Response.ErrorListener errorListener) throws UnsupportedEncodingException{
         super(Method.GET, url + getParamsString(params), listener, errorListener);
@@ -71,8 +80,9 @@ public class CustomStringRequest extends StringRequest {
     @Override
 
     public byte[] getBody() throws AuthFailureError{
-
-
+        if(bodyArray != null){
+            return bodyArray.toString().getBytes();
+        }
         return body.toString().getBytes();
     }
 
