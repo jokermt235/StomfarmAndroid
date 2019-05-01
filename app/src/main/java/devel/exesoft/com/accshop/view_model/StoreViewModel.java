@@ -13,13 +13,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.adapters.StoreItemAdapter;
 import devel.exesoft.com.accshop.controller.AppController;
+import devel.exesoft.com.accshop.controller.DebtsController;
 import devel.exesoft.com.accshop.controller.ItemController;
+import devel.exesoft.com.accshop.controller.PartnerController;
 import devel.exesoft.com.accshop.controller.StoreContoller;
+import devel.exesoft.com.accshop.model.Debt;
 import devel.exesoft.com.accshop.model.Item;
 import devel.exesoft.com.accshop.model.Partner;
 import devel.exesoft.com.accshop.model.Store;
@@ -31,6 +35,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 import static android.app.Activity.RESULT_OK;
+import static com.android.volley.Request.Method.POST;
 
 public class StoreViewModel extends BaseObservable {
 
@@ -141,6 +146,8 @@ public class StoreViewModel extends BaseObservable {
         }catch (UnsupportedEncodingException e){
             e.printStackTrace();
         }
+
+        synchServerData();
     }
 
     public void onExportClicked(){
@@ -171,10 +178,15 @@ public class StoreViewModel extends BaseObservable {
 
     private void synchServerData(){
         String url = AppController.getInstance().getString(R.string.server_url) + "/synch" ;
-        JSONArray params = new JSONArray();
-
+        JSONObject params = new JSONObject();
+        try {
+            params.put("partners", this.partners());
+            params.put("debts", this.debts());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         try{
-            final CustomStringRequest jsonObjectRequest = new CustomStringRequest(url, params, new Response.Listener<String>() {
+            final CustomStringRequest jsonObjectRequest = new CustomStringRequest(POST,url, params, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     Log.e(TAG, response);
@@ -200,5 +212,43 @@ public class StoreViewModel extends BaseObservable {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public JSONArray partners(){
+        JSONArray jsonArray = new JSONArray();
+        RealmResults<Partner> realmResults = PartnerController.partners();
+        for(Partner partner : realmResults){
+            JSONObject jsonPartner = new  JSONObject();
+            try {
+                jsonPartner.put("name", partner.getName());
+                jsonPartner.put("phone", partner.getPhone());
+                jsonPartner.put("adress", partner.getAddres());
+                jsonPartner.put("user_id", partner.getUser_id());
+                jsonArray.put(jsonPartner);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        }
+        return  jsonArray;
+    }
+
+    public JSONArray debts(){
+        JSONArray jsonArray = new JSONArray();
+        RealmResults<Debt> realmResults = DebtsController.debts();
+        for(Debt debt: realmResults){
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("partner_id",debt.getPartner_id());
+                jsonObject.put("item_id", debt.getItem_id());
+                jsonObject.put("amount", debt.getAmount());
+                jsonObject.put("clc_timestamp", debt.getClc_timestamp());
+                jsonObject.put("status", debt.getStatus());
+                jsonArray.put(jsonObject);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return  jsonArray;
     }
 }
