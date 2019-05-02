@@ -72,7 +72,9 @@ public class ClientsActivity extends AppCompatActivity {
                 aList.add(hm);
             }
 
+        }else{
         }
+
         activityClientsBinding.listviewPartners.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
 
@@ -98,5 +100,12 @@ public class ClientsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.partners_search_menu, menu);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        Intent lIntent = new Intent(ClientsActivity.this, MainActivity.class);
+        ClientsActivity.this.startActivity(lIntent);
     }
 }

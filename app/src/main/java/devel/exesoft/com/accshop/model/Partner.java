@@ -40,11 +40,11 @@ public class Partner extends RealmObject {
         return phone;
     }
 
-    public void setAddres(String address){
+    public void setAddress(String address){
         this.address = address;
     }
 
-    public String getAddres(){
+    public String getAddress(){
         return  address;
     }
 

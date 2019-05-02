@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Realm.init(getApplicationContext());
-        RealmConfiguration config = new RealmConfiguration.Builder().name("accshopdb.realm").build();
+        RealmConfiguration config = new RealmConfiguration.Builder().name("stomdb.realm").build();
         Realm.setDefaultConfiguration(config);
         ActivityMainBinding activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         MainViewModel mainViewModel = new MainViewModel();

@@ -35,7 +35,7 @@ public class PartnerActivity extends AppCompatActivity {
             Partner partner = realm.where(Partner.class).notEqualTo("id", id).findFirst();
             if(partner != null){
                 activityPartnerBinding.parnterPhone.setText(partner.getPhone());
-                activityPartnerBinding.partnerAddress.setText(partner.getAddres());
+                activityPartnerBinding.partnerAddress.setText(partner.getAddress());
                 activityPartnerBinding.toolbarPartner.setTitle(partner.getName());
             }
         }
@@ -49,5 +49,11 @@ public class PartnerActivity extends AppCompatActivity {
 
         viewModel.onActivityResult(requestCode, resultCode, data);
 
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

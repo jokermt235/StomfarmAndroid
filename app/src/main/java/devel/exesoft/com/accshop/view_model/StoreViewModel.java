@@ -177,7 +177,9 @@ public class StoreViewModel extends BaseObservable {
     }
 
     private void synchServerData(){
-        String url = AppController.getInstance().getString(R.string.server_url) + "/synch" ;
+        final Realm realm = Realm.getDefaultInstance();
+        User user = realm.where(User.class).findFirst();
+        String url = AppController.getInstance().getString(R.string.server_url) + "/synch?token=" + user.getToken() ;
         JSONObject params = new JSONObject();
         try {
             params.put("partners", this.partners());
@@ -222,7 +224,7 @@ public class StoreViewModel extends BaseObservable {
             try {
                 jsonPartner.put("name", partner.getName());
                 jsonPartner.put("phone", partner.getPhone());
-                jsonPartner.put("adress", partner.getAddres());
+                jsonPartner.put("address", partner.getAddress());
                 jsonPartner.put("user_id", partner.getUser_id());
                 jsonArray.put(jsonPartner);
             }catch (Exception e){

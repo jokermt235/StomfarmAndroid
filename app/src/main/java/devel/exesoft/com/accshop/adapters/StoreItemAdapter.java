@@ -54,7 +54,7 @@ public class StoreItemAdapter extends BaseAdapter {
 
         viewHolder.storeItemName.setText(getItem(i).getName());
         viewHolder.storeItemBarcode.setText(getItem(i).getBarcode());
-        viewHolder.storeItemPrice.setText("price");
+        viewHolder.storeItemPrice.setText(String.valueOf(getItem(i).getPrice()));
         viewHolder.storeItemCount.setText(String.valueOf(getItem(i).getCount()));
         viewHolder.storeItemUnit.setText(getItem(i).getUnit_string());
         return view;

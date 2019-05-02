@@ -79,7 +79,7 @@ public class HomeActivity extends AppCompatActivity {
                     case 1 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, DebtsActivity.class));break;
                     case 2 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, OrdersActivity.class));break;
                     case 3 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, StorageActivity.class));break;
-                    case 4 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, ClientsActivity.class));break;
+                    //case 4 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, ClientsActivity.class));break;
                 }
             }
         });

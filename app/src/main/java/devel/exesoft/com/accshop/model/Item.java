@@ -14,6 +14,7 @@ public class Item extends RealmObject {
     private String unit_string = "шт.";
     private Date created = new Date();
     private long store_id;
+    private long price;
 
     public String getId(){
         return  id;
@@ -25,6 +26,10 @@ public class Item extends RealmObject {
 
     public String getBarcode(){
         return barcode;
+    }
+
+    public Long getPrice(){
+        return  price;
     }
 
     public void setCount(int pCount){
@@ -60,5 +65,9 @@ public class Item extends RealmObject {
 
     public void setBarcode(String pBarcode){
         barcode = pBarcode;
+    }
+
+    public void setPrice(long price){
+        this.price = price;
     }
 }

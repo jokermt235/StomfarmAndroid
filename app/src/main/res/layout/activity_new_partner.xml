@@ -122,7 +122,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
-                        android:text="@={viewModel.partner.addres}"
+                        android:text="@={viewModel.partner.address}"
                         android:hint="Адрес"
                         android:inputType="textPersonName"
                         android:textColor="@color/colorPrimaryDark"
