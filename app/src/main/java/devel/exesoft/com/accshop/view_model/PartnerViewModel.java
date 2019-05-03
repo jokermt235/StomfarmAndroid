@@ -16,6 +16,7 @@ import devel.exesoft.com.accshop.controller.ItemController;
 import devel.exesoft.com.accshop.model.Item;
 import devel.exesoft.com.accshop.view.PartnerActivity;
 import devel.exesoft.com.accshop.view.SimpleScannerActivity;
+import io.realm.Realm;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -46,7 +47,8 @@ public class PartnerViewModel extends Observable {
                 String[] itemBarcodes = data.getStringArrayExtra("item_barcodes");
                 if(itemBarcodes != null) {
                     for (String barcode : itemBarcodes) {
-                        Item item = ItemController.getItemByBarcode(barcode);
+                        Realm realm = Realm.getDefaultInstance();
+                        Item  item = realm.where(Item.class).equalTo("barcode", barcode).findFirst();
                         items.add(item);
                     }
                 }
