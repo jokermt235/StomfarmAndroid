@@ -17,9 +17,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import devel.exesoft.com.accshop.model.User;
-import io.realm.Realm;
-
 public class CustomStringRequest extends StringRequest {
 
     private static String TAG = "CustomStringRequest";

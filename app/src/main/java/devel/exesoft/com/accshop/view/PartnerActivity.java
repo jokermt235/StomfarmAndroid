@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import devel.exesoft.com.accshop.R;
-import devel.exesoft.com.accshop.databinding.ActivityMainBinding;
 import devel.exesoft.com.accshop.databinding.ActivityPartnerBinding;
 import devel.exesoft.com.accshop.model.Partner;
 import devel.exesoft.com.accshop.view_model.PartnerViewModel;

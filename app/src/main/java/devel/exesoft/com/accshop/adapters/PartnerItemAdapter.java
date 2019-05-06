@@ -6,9 +6,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.model.Item;
@@ -47,7 +44,7 @@ public class PartnerItemAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if(view == null){
-            view = mContext.getLayoutInflater().inflate(R.layout.partner_scaned_item, viewGroup);
+            view = mContext.getLayoutInflater().inflate(R.layout.partner_scaned_item, viewGroup, false);
             viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
         }else{
@@ -55,7 +52,7 @@ public class PartnerItemAdapter extends BaseAdapter {
         }
         viewHolder.scanedItemName.setText(getItem(i).getName());
         viewHolder.scanedItemBarcode.setText(getItem(i).getBarcode());
-        viewHolder.getScanedItemCount.setText(getItem(i).getCount());
+        viewHolder.getScanedItemCount.setText(String.valueOf(getItem(i).getCount()));
         return view;
     }
 

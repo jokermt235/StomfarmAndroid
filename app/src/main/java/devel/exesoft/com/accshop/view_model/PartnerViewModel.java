@@ -12,7 +12,6 @@ import java.util.Observable;
 import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.adapters.PartnerItemAdapter;
 import devel.exesoft.com.accshop.adapters.PartnerPagerAdapter;
-import devel.exesoft.com.accshop.controller.ItemController;
 import devel.exesoft.com.accshop.model.Item;
 import devel.exesoft.com.accshop.view.PartnerActivity;
 import devel.exesoft.com.accshop.view.SimpleScannerActivity;
@@ -35,6 +34,8 @@ public class PartnerViewModel extends Observable {
         mContext.activityPartnerBinding.partnerViewPager.setOnPageChangeListener(
                 new TabLayout.TabLayoutOnPageChangeListener(mContext.activityPartnerBinding.tablayoutPartner)
         );
+
+        mContext.activityPartnerBinding.tablayoutPartner.setupWithViewPager(mContext.activityPartnerBinding.partnerViewPager);
     }
     public void onScanClicked(){
         mContext.startActivityForResult(

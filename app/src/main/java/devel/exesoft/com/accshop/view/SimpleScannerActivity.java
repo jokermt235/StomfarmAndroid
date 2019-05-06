@@ -57,7 +57,7 @@ public class SimpleScannerActivity extends AppCompatActivity implements ZXingSca
         barcodes.add(rawResult.toString());
         mIntent.putExtra("item_barcodes", barcodes.toArray(new String[barcodes.size()]));
         setResult(RESULT_OK, mIntent);
-        SimpleScannerActivity.this.finish();
+        //SimpleScannerActivity.this.finish();
     }
 
     @Override

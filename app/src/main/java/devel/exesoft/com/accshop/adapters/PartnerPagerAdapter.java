@@ -13,6 +13,8 @@ public class PartnerPagerAdapter extends FragmentPagerAdapter {
 
     private int numOfTabs;
 
+    private String titles[] = new String[] { "Позиции", "Продажи", "Долги" };
+
     public PartnerPagerAdapter(FragmentManager fm, int numOfTabs) {
         super(fm);
         this.numOfTabs = numOfTabs;
@@ -32,5 +34,10 @@ public class PartnerPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return numOfTabs;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return titles[position];
     }
 }
