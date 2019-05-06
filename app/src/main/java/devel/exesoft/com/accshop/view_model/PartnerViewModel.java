@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -56,12 +59,22 @@ public class PartnerViewModel extends Observable {
 
                 if(items.size() > 0){
                     PartnerItemAdapter partnerItemAdapter = new PartnerItemAdapter(mContext, items);
+                    partnerItemAdapter.notifyDataSetChanged();
                     ListView listView = (ListView)mContext.findViewById(R.id.scaned_item_list);
                     listView.setAdapter(partnerItemAdapter);
+                    partnerItemAdapter.notifyDataSetChanged();
                 }
             }
             if(requestCode == REQUST_CODE_MANNUAL){
             }
         }
+    }
+
+    public void removeScannedListviewItem(int position){
+        items.remove(position);
+        /*PartnerItemAdapter partnerItemAdapter = new PartnerItemAdapter(mContext, items);
+        ListView listView = (ListView)mContext.findViewById(R.id.scaned_item_list);
+        listView.setAdapter(partnerItemAdapter);*/
+        ListView listView = (ListView)mContext.findViewById(R.id.scaned_item_list);
     }
 }

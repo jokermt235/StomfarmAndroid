@@ -50,6 +50,9 @@ public class PartnerActivity extends AppCompatActivity {
 
     }
 
+    public void removeScannedListviewItem(int position){
+        viewModel.removeScannedListviewItem(position);
+    }
 
     @Override
     public void onBackPressed() {

@@ -1,8 +1,10 @@
 package devel.exesoft.com.accshop.adapters;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import devel.exesoft.com.accshop.view.PartnerActivity;
 
 public class PartnerItemAdapter extends BaseAdapter {
 
+    private static  String TAG = "PartnerBaseAdapter";
 
     private ArrayList<Item> items = new ArrayList();
 
@@ -42,7 +45,7 @@ public class PartnerItemAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         if(view == null){
             view = mContext.getLayoutInflater().inflate(R.layout.partner_scaned_item, viewGroup, false);
             viewHolder = new ViewHolder(view);
@@ -53,6 +56,14 @@ public class PartnerItemAdapter extends BaseAdapter {
         viewHolder.scanedItemName.setText(getItem(i).getName());
         viewHolder.scanedItemBarcode.setText(getItem(i).getBarcode());
         viewHolder.getScanedItemCount.setText(String.valueOf(getItem(i).getCount()));
+        viewHolder.scanedDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mContext.removeScannedListviewItem(i);
+            }
+        });
+
+
         return view;
     }
 
@@ -60,10 +71,38 @@ public class PartnerItemAdapter extends BaseAdapter {
         final TextView scanedItemName;
         final TextView scanedItemBarcode;
         final TextView getScanedItemCount;
+        final ImageButton scanedDeleteButton;
+        final ImageButton scannedIncButton;
+        final ImageButton scannedDecButton;
         private ViewHolder(View view) {
             this.scanedItemName = (TextView)view.findViewById(R.id.scaned_item_name);
             this.scanedItemBarcode = (TextView)view.findViewById(R.id.scaned_barcode);
             this.getScanedItemCount = (TextView)view.findViewById(R.id.scaned_item_count);
+            this.scanedDeleteButton = view.findViewById(R.id.scanned_remove_item);
+            this.scannedIncButton = view.findViewById(R.id.scaned_item_incr);
+            this.scannedDecButton = view.findViewById(R.id.scaned_item_dicr);
+            scannedIncButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String newCount = "";
+                    String count = getScanedItemCount.getText().toString();
+                    newCount = String.valueOf(1 + Integer.valueOf(count));
+                    getScanedItemCount.setText(newCount);
+                }
+            });
+
+            scannedDecButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    String count = getScanedItemCount.getText().toString();
+                    if(Integer.valueOf(count) > 1) {
+                        String newCount = "";
+                        newCount = String.valueOf(Integer.valueOf(count) - 1);
+                        getScanedItemCount.setText(newCount);
+                    }
+                }
+            });
         }
     }
 }
