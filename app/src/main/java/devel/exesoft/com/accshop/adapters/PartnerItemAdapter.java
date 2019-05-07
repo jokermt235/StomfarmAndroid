@@ -4,26 +4,33 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.model.Item;
+import devel.exesoft.com.accshop.model.ScannedItem;
 import devel.exesoft.com.accshop.view.PartnerActivity;
 
 public class PartnerItemAdapter extends BaseAdapter {
 
     private static  String TAG = "PartnerBaseAdapter";
 
-    private ArrayList<Item> items = new ArrayList();
+    private ArrayList<ScannedItem> items = new ArrayList();
+
 
     private PartnerActivity mContext;
 
+    public ListView  adapterListView;
+
     private ViewHolder viewHolder;
 
-    public PartnerItemAdapter(PartnerActivity pContext, ArrayList<Item> pItems)
+    public PartnerItemAdapter(PartnerActivity pContext, ArrayList<ScannedItem> pItems)
     {
         mContext = pContext;
         items = pItems;
@@ -35,7 +42,7 @@ public class PartnerItemAdapter extends BaseAdapter {
     }
 
     @Override
-    public Item getItem(int i) {
+    public ScannedItem getItem(int i) {
         return items.get(i);
     }
 
@@ -53,6 +60,7 @@ public class PartnerItemAdapter extends BaseAdapter {
         }else{
             viewHolder = (ViewHolder)view.getTag();
         }
+        adapterListView = (ListView)viewGroup;
         viewHolder.scanedItemName.setText(getItem(i).getName());
         viewHolder.scanedItemBarcode.setText(getItem(i).getBarcode());
         viewHolder.getScanedItemCount.setText(String.valueOf(getItem(i).getCount()));
@@ -74,6 +82,7 @@ public class PartnerItemAdapter extends BaseAdapter {
         final ImageButton scanedDeleteButton;
         final ImageButton scannedIncButton;
         final ImageButton scannedDecButton;
+        final CheckBox scannedItemDebt;
         private ViewHolder(View view) {
             this.scanedItemName = (TextView)view.findViewById(R.id.scaned_item_name);
             this.scanedItemBarcode = (TextView)view.findViewById(R.id.scaned_barcode);
@@ -81,6 +90,7 @@ public class PartnerItemAdapter extends BaseAdapter {
             this.scanedDeleteButton = view.findViewById(R.id.scanned_remove_item);
             this.scannedIncButton = view.findViewById(R.id.scaned_item_incr);
             this.scannedDecButton = view.findViewById(R.id.scaned_item_dicr);
+            this.scannedItemDebt = view.findViewById(R.id.scanned_item_debt);
             scannedIncButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -88,9 +98,11 @@ public class PartnerItemAdapter extends BaseAdapter {
                     String count = getScanedItemCount.getText().toString();
                     newCount = String.valueOf(1 + Integer.valueOf(count));
                     getScanedItemCount.setText(newCount);
+
+                    int postion = adapterListView.getPositionForView((View)view.getParent());
+                    items.get(postion).setCount(Integer.valueOf(newCount));
                 }
             });
-
             scannedDecButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -101,6 +113,14 @@ public class PartnerItemAdapter extends BaseAdapter {
                         newCount = String.valueOf(Integer.valueOf(count) - 1);
                         getScanedItemCount.setText(newCount);
                     }
+                }
+            });
+
+            scannedItemDebt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int postion = adapterListView.getPositionForView((View)view.getParent());
+                    items.get(postion).setDebt(scannedItemDebt.isChecked());
                 }
             });
         }

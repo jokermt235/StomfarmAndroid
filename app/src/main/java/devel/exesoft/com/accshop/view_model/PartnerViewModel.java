@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -16,6 +18,7 @@ import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.adapters.PartnerItemAdapter;
 import devel.exesoft.com.accshop.adapters.PartnerPagerAdapter;
 import devel.exesoft.com.accshop.model.Item;
+import devel.exesoft.com.accshop.model.ScannedItem;
 import devel.exesoft.com.accshop.view.PartnerActivity;
 import devel.exesoft.com.accshop.view.SimpleScannerActivity;
 import io.realm.Realm;
@@ -28,6 +31,8 @@ public class PartnerViewModel extends Observable {
     private static int REQUEST_CODE_SCANER = 1;
     private  static int REQUST_CODE_MANNUAL = 2;
     private ArrayList<Item> items = new ArrayList();
+    private ArrayList<ScannedItem> scannedItems = new ArrayList();
+    PartnerItemAdapter partnerItemAdapter;
     public PartnerViewModel(PartnerActivity pContext){
         mContext = pContext;
         mContext.activityPartnerBinding.partnerViewPager.setAdapter(
@@ -39,6 +44,7 @@ public class PartnerViewModel extends Observable {
         );
 
         mContext.activityPartnerBinding.tablayoutPartner.setupWithViewPager(mContext.activityPartnerBinding.partnerViewPager);
+        partnerItemAdapter = new PartnerItemAdapter(mContext, scannedItems);
     }
     public void onScanClicked(){
         mContext.startActivityForResult(
@@ -53,13 +59,13 @@ public class PartnerViewModel extends Observable {
                     for (String barcode : itemBarcodes) {
                         Realm realm = Realm.getDefaultInstance();
                         Item  item = realm.where(Item.class).equalTo("barcode", barcode).findFirst();
-                        items.add(item);
+                        scannedItems.add(new ScannedItem(item));
                     }
                 }
 
-                if(items.size() > 0){
-                    PartnerItemAdapter partnerItemAdapter = new PartnerItemAdapter(mContext, items);
-                    partnerItemAdapter.notifyDataSetChanged();
+                if(scannedItems.size() > 0){
+                    //PartnerItemAdapter partnerItemAdapter = new PartnerItemAdapter(mContext, items);
+                    //partnerItemAdapter.notifyDataSetChanged();
                     ListView listView = (ListView)mContext.findViewById(R.id.scaned_item_list);
                     listView.setAdapter(partnerItemAdapter);
                     partnerItemAdapter.notifyDataSetChanged();
@@ -71,10 +77,8 @@ public class PartnerViewModel extends Observable {
     }
 
     public void removeScannedListviewItem(int position){
-        items.remove(position);
-        /*PartnerItemAdapter partnerItemAdapter = new PartnerItemAdapter(mContext, items);
-        ListView listView = (ListView)mContext.findViewById(R.id.scaned_item_list);
-        listView.setAdapter(partnerItemAdapter);*/
-        ListView listView = (ListView)mContext.findViewById(R.id.scaned_item_list);
+        //ListView listView = (ListView)mContext.findViewById(R.id.scaned_item_list);
+        scannedItems.remove(position);
+        partnerItemAdapter.notifyDataSetChanged();
     }
 }

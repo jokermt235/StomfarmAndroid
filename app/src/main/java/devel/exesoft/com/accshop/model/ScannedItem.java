@@ -3,10 +3,8 @@ package devel.exesoft.com.accshop.model;
 import java.util.Date;
 import java.util.UUID;
 
-import io.realm.RealmObject;
-
-public class Item extends RealmObject {
-    private String id = UUID.randomUUID().toString();
+public class ScannedItem {
+    private String id;
     private String name;
     private String acc_code;
     private String barcode;
@@ -15,6 +13,18 @@ public class Item extends RealmObject {
     private Date created = new Date();
     private long store_id;
     private long price;
+    private boolean debt  = false;
+
+    public ScannedItem(Item item){
+        this.id = item.getId();
+        this.name = item.getName();
+        this.acc_code = item.getAcc_code();
+        this.barcode = item.getBarcode();
+        this.count = 1;
+        this.unit_string = item.getUnit_string();
+        this.price = item.getPrice();
+        this.store_id = item.getStore_id();
+    }
 
     public String getId(){
         return  id;
@@ -71,7 +81,11 @@ public class Item extends RealmObject {
         this.price = price;
     }
 
-    public long getStore_id(){
-        return this.store_id;
+    public void setDebt(boolean debt) {
+        this.debt = debt;
+    }
+
+    public boolean getDebt(){
+        return this.debt;
     }
 }

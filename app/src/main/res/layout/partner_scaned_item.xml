@@ -64,7 +64,7 @@
                 android:paddingBottom="5dp">
 
                 <CheckBox
-                    android:id="@+id/debt_flag"
+                    android:id="@+id/scanned_item_debt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Вдолг"
