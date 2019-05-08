@@ -51,6 +51,10 @@ public class PartnerViewModel extends Observable {
                 new Intent(mContext, SimpleScannerActivity.class), 1);
     }
 
+    public void onOkClicked(){
+
+    }
+
     public  void onActivityResult(int requestCode, int resultCode, Intent data){
         if(resultCode == RESULT_OK){
             if(requestCode == REQUEST_CODE_SCANER){

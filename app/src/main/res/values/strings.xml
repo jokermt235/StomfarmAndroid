@@ -12,4 +12,5 @@
     <string name="server_url">
         http://test.exesoft.org/RestService/api
     </string>
+    <string name="summ_title">Сумма : </string>
 </resources>
