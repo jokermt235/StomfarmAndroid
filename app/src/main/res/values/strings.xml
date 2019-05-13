@@ -13,4 +13,5 @@
         http://test.exesoft.org/RestService/api
     </string>
     <string name="summ_title">Сумма : </string>
+    <string name="currency">СОМ</string>
 </resources>

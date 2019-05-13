@@ -1,13 +1,8 @@
 package devel.exesoft.com.accshop.view_model;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,7 +12,9 @@ import java.util.Observable;
 import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.adapters.PartnerItemAdapter;
 import devel.exesoft.com.accshop.adapters.PartnerPagerAdapter;
+import devel.exesoft.com.accshop.model.Debt;
 import devel.exesoft.com.accshop.model.Item;
+import devel.exesoft.com.accshop.model.Sale;
 import devel.exesoft.com.accshop.model.ScannedItem;
 import devel.exesoft.com.accshop.view.PartnerActivity;
 import devel.exesoft.com.accshop.view.SimpleScannerActivity;
@@ -45,6 +42,27 @@ public class PartnerViewModel extends Observable {
 
         mContext.activityPartnerBinding.tablayoutPartner.setupWithViewPager(mContext.activityPartnerBinding.partnerViewPager);
         partnerItemAdapter = new PartnerItemAdapter(mContext, scannedItems);
+
+        mContext.activityPartnerBinding.tablayoutPartner.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Log.d(TAG, tab.getText().toString());
+                switch (tab.getPosition()){
+                    case 1: fillSaleList();break;
+                    case 2: fillDebtList();break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
     public void onScanClicked(){
         mContext.startActivityForResult(
@@ -52,7 +70,34 @@ public class PartnerViewModel extends Observable {
     }
 
     public void onOkClicked(){
-
+        Realm realm = Realm.getDefaultInstance();
+        //Item  item = realm.where(Item.class).equalTo("id", ).findFirst();
+        for(ScannedItem item : scannedItems) {
+            if(item.getDebt()) {
+                final Debt debt = new Debt();
+                debt.setItem_id(item.getId());
+                debt.setPartner_id(mContext.partner_id);
+                debt.setAmount(item.getCount());
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.copyToRealm(debt);
+                    }
+                });
+            }else{
+                final Sale sale = new Sale();
+                sale.setItem_id(item.getId());
+                sale.setPartner_id(mContext.partner_id);
+                sale.setAmount(item.getCount());
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.copyToRealm(sale);
+                    }
+                });
+            }
+        }
+        realm.close();
     }
 
     public  void onActivityResult(int requestCode, int resultCode, Intent data){
@@ -68,11 +113,10 @@ public class PartnerViewModel extends Observable {
                 }
 
                 if(scannedItems.size() > 0){
-                    //PartnerItemAdapter partnerItemAdapter = new PartnerItemAdapter(mContext, items);
-                    //partnerItemAdapter.notifyDataSetChanged();
                     ListView listView = (ListView)mContext.findViewById(R.id.scaned_item_list);
                     listView.setAdapter(partnerItemAdapter);
                     partnerItemAdapter.notifyDataSetChanged();
+                    setScannedCount();
                 }
             }
             if(requestCode == REQUST_CODE_MANNUAL){
@@ -81,8 +125,24 @@ public class PartnerViewModel extends Observable {
     }
 
     public void removeScannedListviewItem(int position){
-        //ListView listView = (ListView)mContext.findViewById(R.id.scaned_item_list);
         scannedItems.remove(position);
         partnerItemAdapter.notifyDataSetChanged();
+        setScannedCount();
+    }
+
+    public void setScannedCount(){
+        int summ = 0;
+        for(int i=0;i<partnerItemAdapter.getCount();i++){
+            summ += partnerItemAdapter.getItem(i).getPrice() * partnerItemAdapter.getItem(i).getCount();
+        }
+        TextView scannedSumm = mContext.findViewById(R.id.scanned_summ);
+        scannedSumm.setText(String.valueOf(summ));
+    }
+
+    public void fillSaleList(){
+    }
+
+    public void fillDebtList(){
+
     }
 }

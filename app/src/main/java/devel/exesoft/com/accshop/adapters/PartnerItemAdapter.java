@@ -68,6 +68,7 @@ public class PartnerItemAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 mContext.removeScannedListviewItem(i);
+                mContext.viewModel.setScannedCount();
             }
         });
 
@@ -101,6 +102,7 @@ public class PartnerItemAdapter extends BaseAdapter {
 
                     int postion = adapterListView.getPositionForView((View)view.getParent());
                     items.get(postion).setCount(Integer.valueOf(newCount));
+                    mContext.viewModel.setScannedCount();
                 }
             });
             scannedDecButton.setOnClickListener(new View.OnClickListener() {
@@ -111,8 +113,11 @@ public class PartnerItemAdapter extends BaseAdapter {
                     if(Integer.valueOf(count) > 1) {
                         String newCount = "";
                         newCount = String.valueOf(Integer.valueOf(count) - 1);
+                        int postion = adapterListView.getPositionForView((View)view.getParent());
+                        items.get(postion).setCount(Integer.valueOf(newCount));
                         getScanedItemCount.setText(newCount);
                     }
+                    mContext.viewModel.setScannedCount();
                 }
             });
 

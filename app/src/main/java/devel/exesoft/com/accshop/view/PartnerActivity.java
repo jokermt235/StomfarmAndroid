@@ -16,19 +16,22 @@ public class PartnerActivity extends AppCompatActivity {
 
     private static  String TAG = "PartnerActivity";
 
-    private PartnerViewModel viewModel;
+    public PartnerViewModel viewModel;
+
+    public  String partner_id;
 
     public ActivityPartnerBinding activityPartnerBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("id");
         activityPartnerBinding = DataBindingUtil.setContentView(this, R.layout.activity_partner);
         viewModel = new PartnerViewModel(this);
         activityPartnerBinding.setViewModel(viewModel);
         activityPartnerBinding.executePendingBindings();
-        Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
+        partner_id = id;
         if(id != null){
             Realm realm = Realm.getDefaultInstance();
             Partner partner = realm.where(Partner.class).notEqualTo("id", id).findFirst();

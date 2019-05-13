@@ -7,17 +7,17 @@ import io.realm.RealmObject;
 
 public class Debt extends RealmObject {
     private String id = UUID.randomUUID().toString();
-    private long item_id;
-    private long partner_id;
+    private String item_id;
+    private String partner_id;
     private long amount;
-    private int status;
+    private int status = 0;
     private Date clc_timestamp = new Date();
 
-    public long getItem_id(){
+    public String getItem_id(){
         return  item_id;
     }
 
-    public long getPartner_id() {
+    public String getPartner_id() {
         return partner_id;
     }
 
@@ -33,7 +33,7 @@ public class Debt extends RealmObject {
         return clc_timestamp;
     }
 
-    public void setItem_id(long item_id) {
+    public void setItem_id(String item_id) {
         this.item_id = item_id;
     }
 
@@ -41,7 +41,7 @@ public class Debt extends RealmObject {
         this.amount = amount;
     }
 
-    public void setPartner_id(long partner_id) {
+    public void setPartner_id(String partner_id) {
         this.partner_id = partner_id;
     }
 

@@ -115,6 +115,7 @@ public class StoreViewModel extends BaseObservable {
                                         item.setBarcode(serverItem.getString("barcode"));
                                         item.setCount(serverItem.getInt("amount"));
                                         item.setUnit_string(serverItem.getString("unit_string"));
+                                        item.setPrice(serverItem.getInt("offer_price"));
                                         realm.executeTransaction(new Realm.Transaction() {
                                             @Override
                                             public void execute(Realm realm) {
