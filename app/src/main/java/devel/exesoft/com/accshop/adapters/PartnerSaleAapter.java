@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 public class PartnerSaleAapter extends BaseAdapter {
+
     @Override
     public int getCount() {
         return 0;
