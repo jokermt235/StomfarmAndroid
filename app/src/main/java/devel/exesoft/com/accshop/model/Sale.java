@@ -11,6 +11,8 @@ public class Sale extends RealmObject {
     private String id = UUID.randomUUID().toString();
     private Date created = new Date();
     private String item_id;
+    private String item_name;
+    private String item_unit;
     private long amount;
     private long user_id;
     private String partner_id;
@@ -18,6 +20,15 @@ public class Sale extends RealmObject {
     public String getItem_id() {
         return item_id;
     }
+
+    public String getItem_name(){
+        return this.item_name;
+    }
+
+    public  void setItem_name(String item_name){
+        this.item_name = item_name;
+    }
+
 
     public String getPartner_id() {
         return partner_id;
@@ -54,4 +65,5 @@ public class Sale extends RealmObject {
     public void setUser_id(long user_id) {
         this.user_id = user_id;
     }
+
 }
