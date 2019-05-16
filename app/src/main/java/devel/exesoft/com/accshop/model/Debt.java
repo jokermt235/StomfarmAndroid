@@ -11,6 +11,7 @@ public class Debt extends RealmObject {
     private String partner_id;
     private long amount;
     private int status = 0;
+    private String item_name;
     private Date clc_timestamp = new Date();
 
     public String getItem_id(){

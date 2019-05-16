@@ -15,6 +15,7 @@ public class Sale extends RealmObject {
     private String item_unit;
     private long amount;
     private long user_id;
+    private long item_price;
     private String partner_id;
 
     public String getItem_id() {
@@ -29,6 +30,21 @@ public class Sale extends RealmObject {
         this.item_name = item_name;
     }
 
+    public void setItem_unit(String itme_unit){
+        this.item_unit = itme_unit;
+    }
+
+    public String getItem_unit(){
+        return  item_unit;
+    }
+
+    public void setItem_price(long item_price){
+        this.item_price = item_price;
+    }
+
+    public long getItem_price(){
+        return item_price;
+    }
 
     public String getPartner_id() {
         return partner_id;

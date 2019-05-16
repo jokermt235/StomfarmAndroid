@@ -1,5 +1,6 @@
 package devel.exesoft.com.accshop.adapters;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -40,7 +41,7 @@ public class PartnerSaleAapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         if(view == null){
-            view = mContext.getLayoutInflater().inflate(R.layout.partner_sale_item, parent, false);
+            view = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.partner_sale_item, parent, false);
             viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
         }else{
@@ -49,7 +50,8 @@ public class PartnerSaleAapter extends BaseAdapter {
         viewHolder.saleItemName.setText(getItem(position).getItem_name());
         viewHolder.saleItemDate.setText(getItem(position).getCreated().toString());
         viewHolder.saleItemAmount.setText(String.valueOf(getItem(position).getAmount()));
-        //viewHolder.saleItemUnit.setText(getItem(position).);
+        viewHolder.saleItemUnit.setText(getItem(position).getItem_unit());
+        viewHolder.saleItemAvgPrice.setText(String.valueOf(getItem(position).getAmount() * getItem(position).getItem_price()));
         return view;
     }
 
@@ -61,11 +63,11 @@ public class PartnerSaleAapter extends BaseAdapter {
         final TextView saleItemAvgPrice;
 
         public ViewHolder(View view){
-            this.saleItemName = mContext.findViewById(R.id.partner_sale_name);
-            this.saleItemDate = mContext.findViewById(R.id.partner_sale_date);
-            this.saleItemUnit = mContext.findViewById(R.id.partner_sale_unit);
-            this.saleItemAmount = mContext.findViewById(R.id.partner_sale_amount);
-            this.saleItemAvgPrice = mContext.findViewById(R.id.partner_sale_price);
+            this.saleItemName = view.findViewById(R.id.partner_sale_name);
+            this.saleItemDate = view.findViewById(R.id.partner_sale_date);
+            this.saleItemUnit = view.findViewById(R.id.partner_sale_unit);
+            this.saleItemAmount = view.findViewById(R.id.partner_sale_amount);
+            this.saleItemAvgPrice = view.findViewById(R.id.partner_sale_price);
         }
     }
 }

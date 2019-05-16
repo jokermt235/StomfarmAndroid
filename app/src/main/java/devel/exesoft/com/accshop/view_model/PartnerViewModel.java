@@ -12,6 +12,8 @@ import java.util.Observable;
 import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.adapters.PartnerItemAdapter;
 import devel.exesoft.com.accshop.adapters.PartnerPagerAdapter;
+import devel.exesoft.com.accshop.adapters.PartnerSaleAapter;
+import devel.exesoft.com.accshop.adapters.StoreItemAdapter;
 import devel.exesoft.com.accshop.model.Debt;
 import devel.exesoft.com.accshop.model.Item;
 import devel.exesoft.com.accshop.model.Sale;
@@ -19,6 +21,7 @@ import devel.exesoft.com.accshop.model.ScannedItem;
 import devel.exesoft.com.accshop.view.PartnerActivity;
 import devel.exesoft.com.accshop.view.SimpleScannerActivity;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -30,6 +33,7 @@ public class PartnerViewModel extends Observable {
     private ArrayList<Item> items = new ArrayList();
     private ArrayList<ScannedItem> scannedItems = new ArrayList();
     PartnerItemAdapter partnerItemAdapter;
+    PartnerSaleAapter partnerSaleAapter;
     public PartnerViewModel(PartnerActivity pContext){
         mContext = pContext;
         mContext.activityPartnerBinding.partnerViewPager.setAdapter(
@@ -89,6 +93,9 @@ public class PartnerViewModel extends Observable {
                 sale.setItem_id(item.getId());
                 sale.setPartner_id(mContext.partner_id);
                 sale.setAmount(item.getCount());
+                sale.setItem_name(item.getName());
+                sale.setItem_unit(item.getUnit_string());
+                sale.setItem_price(item.getPrice());
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
@@ -140,6 +147,16 @@ public class PartnerViewModel extends Observable {
     }
 
     public void fillSaleList(){
+        ArrayList<Sale> saleItems  = new ArrayList();
+        //items.add();
+        Realm realm = Realm.getDefaultInstance();
+        final RealmResults<Sale> items = realm.where(Sale.class).findAll();
+        ListView listView = (ListView)mContext.findViewById(R.id.partner_sale_list);
+        for(Sale item : items){
+            saleItems.add(item);
+        }
+        PartnerSaleAapter storeItemAdapter = new PartnerSaleAapter(mContext, saleItems);
+        listView.setAdapter(storeItemAdapter);
     }
 
     public void fillDebtList(){
