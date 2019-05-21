@@ -15,7 +15,7 @@
         android:paddingBottom="2dp">
 
         <TextView
-            android:id="@+id/debt_item_name"
+            android:id="@+id/partner_debt_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -51,7 +51,7 @@
             android:text="0" />
 
         <TextView
-            android:id="@+id/parner_debt_unit"
+            android:id="@+id/partner_debt_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -75,7 +75,7 @@
             android:text="0" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/partner_debt_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

@@ -8,9 +8,11 @@ import android.util.Log;
 
 import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.databinding.ActivityPartnerBinding;
+import devel.exesoft.com.accshop.model.Debt;
 import devel.exesoft.com.accshop.model.Partner;
 import devel.exesoft.com.accshop.view_model.PartnerViewModel;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class PartnerActivity extends AppCompatActivity {
 
@@ -43,6 +45,7 @@ public class PartnerActivity extends AppCompatActivity {
         }
 
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){

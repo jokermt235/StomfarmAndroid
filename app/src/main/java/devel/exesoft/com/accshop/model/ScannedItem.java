@@ -15,6 +15,8 @@ public class ScannedItem {
     private long price;
     private boolean debt  = false;
 
+    private Item item;
+
     public ScannedItem(Item item){
         this.id = item.getId();
         this.name = item.getName();
@@ -24,6 +26,11 @@ public class ScannedItem {
         this.unit_string = item.getUnit_string();
         this.price = item.getPrice();
         this.store_id = item.getStore_id();
+        this.item = item;
+    }
+
+    public  Item  getItem(){
+        return item;
     }
 
     public String getId(){

@@ -5,6 +5,8 @@
     android:orientation="vertical">
 
     <ListView
+        android:id="@+id/partner_debt_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
 </LinearLayout>

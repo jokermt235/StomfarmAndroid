@@ -246,7 +246,6 @@ public class StoreViewModel extends BaseObservable {
                 jsonObject.put("item_id", debt.getItem_id());
                 jsonObject.put("amount", debt.getAmount());
                 jsonObject.put("clc_timestamp", debt.getClc_timestamp());
-                jsonObject.put("status", debt.getStatus());
                 jsonArray.put(jsonObject);
             }catch (Exception e){
                 e.printStackTrace();

@@ -4,8 +4,10 @@ import java.util.Date;
 import java.util.UUID;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class Item extends RealmObject {
+    @PrimaryKey
     private String id = UUID.randomUUID().toString();
     private String name;
     private String acc_code;
@@ -15,6 +17,16 @@ public class Item extends RealmObject {
     private Date created = new Date();
     private long store_id;
     private long price;
+    private boolean changed = false;
+
+
+    public void setChanged(boolean changed) {
+        this.changed = changed;
+    }
+
+    public boolean isChanged(){
+        return changed;
+    }
 
     public String getId(){
         return  id;

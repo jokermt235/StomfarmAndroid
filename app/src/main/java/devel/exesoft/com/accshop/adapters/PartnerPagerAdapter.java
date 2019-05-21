@@ -28,6 +28,7 @@ public class PartnerPagerAdapter extends FragmentPagerAdapter {
             case 1 : return  new PartnerTab2();
             case 2 : return  new PartnerTab3();
         }
+
         return null;
     }
 

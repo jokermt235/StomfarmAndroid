@@ -4,18 +4,50 @@ import java.util.Date;
 import java.util.UUID;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class Debt extends RealmObject {
+    @PrimaryKey
     private String id = UUID.randomUUID().toString();
     private String item_id;
+    private String item_name;
+    private long item_price;
+    private String item_unit;
     private String partner_id;
     private long amount;
-    private int status = 0;
-    private String item_name;
+    private Date created = new Date();
     private Date clc_timestamp = new Date();
 
     public String getItem_id(){
         return  item_id;
+    }
+
+    public void setItem_name(String item_name){
+        this.item_name = item_name;
+    }
+
+    public void setItem_unit(String item_unit){
+        this.item_unit = item_unit;
+    }
+
+    public String getItem_unit(){
+        return  item_unit;
+    }
+
+    public Date getCreated(){
+        return created;
+    }
+
+    public String getItem_name(){
+        return  item_name;
+    }
+
+    public void  setItem_price(long item_price){
+        this.item_price = item_price;
+    }
+
+    public long getItem_price(){
+        return item_price;
     }
 
     public String getPartner_id() {
@@ -24,10 +56,6 @@ public class Debt extends RealmObject {
 
     public  long getAmount(){
         return  amount;
-    }
-
-    public  int getStatus(){
-        return status;
     }
 
     public Date getClc_timestamp() {
@@ -48,9 +76,5 @@ public class Debt extends RealmObject {
 
     public void setClc_timestamp(Date clc_timestamp) {
         this.clc_timestamp = clc_timestamp;
-    }
-
-    public void setStatus(int status){
-        this.status = status;
     }
 }

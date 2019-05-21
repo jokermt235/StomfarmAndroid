@@ -7,13 +7,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 import devel.exesoft.com.accshop.R;
+import devel.exesoft.com.accshop.adapters.PartnerDebtAdapter;
 import devel.exesoft.com.accshop.adapters.PartnerItemAdapter;
 import devel.exesoft.com.accshop.adapters.PartnerPagerAdapter;
 import devel.exesoft.com.accshop.adapters.PartnerSaleAapter;
-import devel.exesoft.com.accshop.adapters.StoreItemAdapter;
 import devel.exesoft.com.accshop.model.Debt;
 import devel.exesoft.com.accshop.model.Item;
 import devel.exesoft.com.accshop.model.Sale;
@@ -44,12 +45,14 @@ public class PartnerViewModel extends Observable {
                 new TabLayout.TabLayoutOnPageChangeListener(mContext.activityPartnerBinding.tablayoutPartner)
         );
 
-        mContext.activityPartnerBinding.tablayoutPartner.setupWithViewPager(mContext.activityPartnerBinding.partnerViewPager);
+        //mContext.activityPartnerBinding.tablayoutPartner.setupWithViewPager(mContext.activityPartnerBinding.partnerViewPager);
+
         partnerItemAdapter = new PartnerItemAdapter(mContext, scannedItems);
 
         mContext.activityPartnerBinding.tablayoutPartner.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                mContext.activityPartnerBinding.partnerViewPager.setCurrentItem(tab.getPosition());
                 Log.d(TAG, tab.getText().toString());
                 switch (tab.getPosition()){
                     case 1: fillSaleList();break;
@@ -67,7 +70,19 @@ public class PartnerViewModel extends Observable {
 
             }
         });
+        initDefaults();
     }
+
+    private void initDefaults(){
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Debt> results = realm.where(Debt.class).findAll();
+        long sum = 0;
+        for(Debt debt : results){
+            sum += debt.getItem_price();
+        }
+        mContext.activityPartnerBinding.clientDebt.setText(String.valueOf(sum));
+    }
+
     public void onScanClicked(){
         mContext.startActivityForResult(
                 new Intent(mContext, SimpleScannerActivity.class), 1);
@@ -75,13 +90,15 @@ public class PartnerViewModel extends Observable {
 
     public void onOkClicked(){
         Realm realm = Realm.getDefaultInstance();
-        //Item  item = realm.where(Item.class).equalTo("id", ).findFirst();
         for(ScannedItem item : scannedItems) {
             if(item.getDebt()) {
                 final Debt debt = new Debt();
                 debt.setItem_id(item.getId());
                 debt.setPartner_id(mContext.partner_id);
                 debt.setAmount(item.getCount());
+                debt.setItem_name(item.getName());
+                debt.setItem_price(item.getPrice());
+                debt.setItem_unit(item.getUnit_string());
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
@@ -103,6 +120,13 @@ public class PartnerViewModel extends Observable {
                     }
                 });
             }
+
+            realm.beginTransaction();
+            Item storeItem = item.getItem();
+            storeItem.setCount(storeItem.getCount() - item.getCount());
+            storeItem.setChanged(true);
+            realm.copyToRealmOrUpdate(storeItem);
+            realm.commitTransaction();
         }
         realm.close();
     }
@@ -160,6 +184,15 @@ public class PartnerViewModel extends Observable {
     }
 
     public void fillDebtList(){
-
+        ArrayList<Debt> debtItems  = new ArrayList();
+        //items.add();
+        Realm realm = Realm.getDefaultInstance();
+        final RealmResults<Debt> items = realm.where(Debt.class).findAll();
+        ListView listView = (ListView)mContext.findViewById(R.id.partner_debt_list);
+        for(Debt item : items){
+            debtItems.add(item);
+        }
+        PartnerDebtAdapter storeItemAdapter = new PartnerDebtAdapter(mContext, debtItems);
+        listView.setAdapter(storeItemAdapter);
     }
 }
