@@ -1,6 +1,7 @@
 package devel.exesoft.com.accshop.model;
 
 import java.util.Date;
+import java.util.UUID;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -8,6 +9,7 @@ import io.realm.annotations.PrimaryKey;
 public class Store extends RealmObject {
     @PrimaryKey
     private long id;
+    private String mobile_id = UUID.randomUUID().toString();
     private Date created = new Date();
     private String name;
     private long user_id;

@@ -17,7 +17,20 @@ public class Item extends RealmObject {
     private Date created = new Date();
     private long store_id;
     private long price;
+    private long user_id;
     private boolean changed = false;
+
+    public void setUser_id(long user_id){
+        this.user_id = user_id;
+    }
+
+    public long getUser_id(){
+        return this.user_id;
+    }
+
+    public void setId(String id){
+        this.id  = id;
+    }
 
 
     public void setChanged(boolean changed) {

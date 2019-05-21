@@ -17,6 +17,32 @@ public class Debt extends RealmObject {
     private long amount;
     private Date created = new Date();
     private Date clc_timestamp = new Date();
+    private boolean clc_status = false;
+    private  String status = "new";
+
+    public String getId(){
+        return  id;
+    }
+
+    public void setId(String id){
+        this.id = id;
+    }
+
+    public void setStatus(String status){
+        this.status = status;
+    }
+
+    public String getStatus(){
+        return status;
+    }
+
+    public void setClc_status(boolean clc_status){
+        this.clc_status = clc_status;
+    }
+
+    public  boolean getClc_status(){
+        return  clc_status;
+    }
 
     public String getItem_id(){
         return  item_id;

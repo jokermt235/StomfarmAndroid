@@ -55,4 +55,12 @@ public class Partner extends RealmObject {
     public long getUser_id(){
         return user_id;
     }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus(){
+        return  status;
+    }
 }

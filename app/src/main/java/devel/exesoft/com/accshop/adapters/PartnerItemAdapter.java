@@ -1,11 +1,9 @@
 package devel.exesoft.com.accshop.adapters;
 
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,7 +11,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import devel.exesoft.com.accshop.R;
-import devel.exesoft.com.accshop.model.Item;
 import devel.exesoft.com.accshop.model.ScannedItem;
 import devel.exesoft.com.accshop.view.PartnerActivity;
 

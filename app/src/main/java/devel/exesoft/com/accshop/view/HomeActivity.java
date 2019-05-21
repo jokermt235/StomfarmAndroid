@@ -38,10 +38,9 @@ public class HomeActivity extends AppCompatActivity {
             HashMap<String, Object> hm = new HashMap<String, Object>();
             switch(row){
                 case "Контрагенты" : hm.put("Image", R.mipmap.ic_home_left_menu_partners);hm.put("Title",row);break;
-                case "Долги" : hm.put("Image", R.mipmap.ic_home_left_menu_credit);hm.put("Title",row);break;
+                case "Остатки" : hm.put("Image", R.mipmap.ic_home_left_menu_credit);hm.put("Title",row);break;
                 case "Заказы" : hm.put("Image", R.mipmap.ic_home_left_menu_orders);hm.put("Title",row);break;
                 case "Склад" : hm.put("Image", R.mipmap.ic_home_left_menu_stores);hm.put("Title",row);break;
-                case "Платежи" : hm.put("Image", R.mipmap.ic_home_left_menu_payments);hm.put("Title",row);break;
              }
             aList.add(hm);
         }

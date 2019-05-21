@@ -123,12 +123,17 @@ public class PartnerViewModel extends Observable {
 
             realm.beginTransaction();
             Item storeItem = item.getItem();
-            storeItem.setCount(storeItem.getCount() - item.getCount());
-            storeItem.setChanged(true);
-            realm.copyToRealmOrUpdate(storeItem);
-            realm.commitTransaction();
+            if(storeItem.getCount() - item.getCount() <= 0) {
+                storeItem.deleteFromRealm();
+            }else {
+                storeItem.setCount(storeItem.getCount() - item.getCount());
+                storeItem.setChanged(true);
+                realm.copyToRealmOrUpdate(storeItem);
+                realm.commitTransaction();
+            }
         }
         realm.close();
+        mContext.activityPartnerBinding.tablayoutPartner.getTabAt(1).select();
     }
 
     public  void onActivityResult(int requestCode, int resultCode, Intent data){

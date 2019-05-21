@@ -1,7 +1,11 @@
 package devel.exesoft.com.accshop.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -13,6 +17,10 @@ import io.realm.RealmConfiguration;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    private final static int INTERVAL = 1000 * 60 * 5;
+
+    Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +42,31 @@ public class MainActivity extends AppCompatActivity {
             MainActivity.this.startActivity(lIntent);
             this.finish();
         }
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    Runnable mHandlerTask = new Runnable()
+    {
+        @Override
+        public void run() {
+            mHandler.postDelayed(mHandlerTask, INTERVAL);
+        }
+    };
+
+    private void startRepeatingTask()
+    {
+        mHandlerTask.run();
+    }
+
+    private void stopRepeatingTask()
+    {
+        mHandler.removeCallbacks(mHandlerTask);
     }
 
 

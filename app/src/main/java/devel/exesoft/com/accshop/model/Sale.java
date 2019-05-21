@@ -18,6 +18,20 @@ public class Sale extends RealmObject {
     private long item_price;
     private String partner_id;
 
+    private String status = "new";
+
+    public void setStatus(String status){
+        this.status = status;
+    }
+
+    public String getStatus(){
+        return  this.status;
+    }
+
+    public void setId(String id){
+        this.id = id;
+    }
+
     public String getItem_id() {
         return item_id;
     }

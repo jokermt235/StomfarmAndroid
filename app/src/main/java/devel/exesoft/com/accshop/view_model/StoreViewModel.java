@@ -56,7 +56,7 @@ public class StoreViewModel extends BaseObservable {
         }else{
             setStore();
         }
-        onSyncClicked();
+        //onSyncClicked();
     }
 
     private StorageActivity getContext(){
