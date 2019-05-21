@@ -21,15 +21,15 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 public class SynchController extends AppController {
-    private String TAG = "SynchController";
-    public void synchAll(){
+    private static String TAG = "SynchController";
+    public static void synchAll(){
         synchPartners();
         synchSales();
         synchDebts();
         synchItems();
     }
 
-    public void synchItems(){
+    public static void synchItems(){
         String NAME = "Items";
         String url = getInstance().getString(R.string.server_url) + "/" + NAME ;
         final JSONObject params  = new JSONObject();
@@ -111,7 +111,7 @@ public class SynchController extends AppController {
         getInstance().getRequestQueue().add(jsonObjectRequest);
     }
 
-    public void synchDebts(){
+    public static void synchDebts(){
         String NAME = "Debts";
         String url = getInstance().getString(R.string.server_url) + "/" + NAME ;
         final JSONObject params  = new JSONObject();
@@ -183,7 +183,7 @@ public class SynchController extends AppController {
         getInstance().getRequestQueue().add(jsonObjectRequest);
     }
 
-    public void synchSales(){
+    public static void synchSales(){
         String NAME = "Sales";
         String url = getInstance().getString(R.string.server_url) + "/" + NAME ;
         final JSONObject params  = new JSONObject();
@@ -253,7 +253,7 @@ public class SynchController extends AppController {
         getInstance().getRequestQueue().add(jsonObjectRequest);
     }
 
-    public void synchPartners(){
+    public static void synchPartners(){
         String NAME = "Partners";
         String url = getInstance().getString(R.string.server_url) + "/" + NAME ;
         final JSONObject params  = new JSONObject();

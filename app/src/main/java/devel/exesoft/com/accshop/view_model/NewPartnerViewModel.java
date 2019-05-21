@@ -12,6 +12,7 @@ public class NewPartnerViewModel extends Observable {
 
     public NewPartnerViewModel(){
         partner = new Partner();
+        partner.setStatus("new");
     }
     public void onSaveClicked(){
         PartnerController.add(getPartner());
