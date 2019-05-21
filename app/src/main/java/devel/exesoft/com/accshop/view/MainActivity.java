@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.databinding.ActivityMainBinding;
@@ -18,7 +19,9 @@ import io.realm.RealmConfiguration;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final static int INTERVAL = 1000 * 60 * 5;
+    private final static int INTERVAL = 1000 * 60 * 1;
+
+    private static String TAG = "MainActivity";
 
     Handler mHandler = new Handler();
 
@@ -42,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
             MainActivity.this.startActivity(lIntent);
             this.finish();
         }
+
+        startRepeatingTask();
     }
 
     private boolean isNetworkAvailable() {
@@ -55,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
     {
         @Override
         public void run() {
+            if(isNetworkAvailable()) {
+                Log.d(TAG, "The repeating task has been running!!!");
+            }
             mHandler.postDelayed(mHandlerTask, INTERVAL);
         }
     };

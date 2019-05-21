@@ -6,7 +6,6 @@
         <item>Остатки</item>
         <item>Заказы</item>
         <item>Склад</item>
-        <item>Платежи</item>
     </string-array>
     <string name="server_url">
         http://test.exesoft.org/RestService/api
