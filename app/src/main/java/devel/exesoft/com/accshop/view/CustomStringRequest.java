@@ -27,6 +27,7 @@ public class CustomStringRequest extends StringRequest {
     }
     public CustomStringRequest(int method, String url,JSONObject params, Response.Listener<String> listener, Response.ErrorListener errorListener) {
         super(method, url, listener, errorListener);
+        Log.d(TAG, "Params:" + params.toString());
 
         body = params;
     }

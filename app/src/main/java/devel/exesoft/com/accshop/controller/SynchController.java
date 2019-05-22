@@ -21,15 +21,15 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 public class SynchController extends AppController {
-    private String TAG = "SynchController";
-    public void synchAll(){
+    private static String TAG = "SynchController";
+    public static void synchAll(){
         synchPartners();
-        synchSales();
-        synchDebts();
+        //synchSales();
+        //synchDebts();
         synchItems();
     }
 
-    public void synchItems(){
+    public static void synchItems(){
         String NAME = "Items";
         String url = getInstance().getString(R.string.server_url) + "/" + NAME ;
         final JSONObject params  = new JSONObject();
@@ -72,18 +72,17 @@ public class SynchController extends AppController {
                             if(data.length() > 0){
                                 for(int i=0;i<data.length();i++){
                                     final Item  item = new Item();
-                                    if(data.getJSONObject(i).getString("mobile_id") != null) {
-                                        item.setId(data.getJSONObject(i).getString("mobile_id"));
-                                        item.setCount(data.getJSONObject(i).getInt("amount"));
-                                    }else{
-                                       item.setName(data.getJSONObject(i).getString("name"));
-                                       item.setCount(data.getJSONObject(i).getInt("amount"));
-                                       item.setUnit_string(data.getJSONObject(i).getString("unit_string"));
-                                       item.setBarcode(data.getJSONObject(i).getString("barcode"));
-                                       item.setAcc_code(data.getJSONObject(i).getString("acc_code"));
-                                       item.setPrice(data.getJSONObject(i).getInt("price"));
-                                       item.setUser_id(user.getId());
-                                    }
+                                    item.setId(data.getJSONObject(i).getString("mobile_id"));
+                                    item.setCount(data.getJSONObject(i).getInt("amount"));
+                                    item.setName(data.getJSONObject(i).getString("name"));
+                                    item.setCount(data.getJSONObject(i).getInt("amount"));
+                                    item.setUnit_string(data.getJSONObject(i).getString("unit_string"));
+                                    item.setBarcode(data.getJSONObject(i).getString("barcode"));
+                                    item.setAcc_code(data.getJSONObject(i).getString("acc_code"));
+                                    item.setPrice(data.getJSONObject(i).getInt("price"));
+                                    item.setStore_id(data.getJSONObject(i).getInt("storage_id"));
+                                    item.setUser_id(user.getId());
+                                    item.setChanged(false);
                                     realm.executeTransaction(new Realm.Transaction() {
                                         @Override
                                         public void execute(Realm realm) {
@@ -92,6 +91,8 @@ public class SynchController extends AppController {
                                             realm.copyToRealmOrUpdate(item);
                                         }
                                     });
+
+                                    realm.close();
                                 }
                             }
 
@@ -111,7 +112,7 @@ public class SynchController extends AppController {
         getInstance().getRequestQueue().add(jsonObjectRequest);
     }
 
-    public void synchDebts(){
+    public static void synchDebts(){
         String NAME = "Debts";
         String url = getInstance().getString(R.string.server_url) + "/" + NAME ;
         final JSONObject params  = new JSONObject();
@@ -183,7 +184,7 @@ public class SynchController extends AppController {
         getInstance().getRequestQueue().add(jsonObjectRequest);
     }
 
-    public void synchSales(){
+    public static void synchSales(){
         String NAME = "Sales";
         String url = getInstance().getString(R.string.server_url) + "/" + NAME ;
         final JSONObject params  = new JSONObject();
@@ -225,6 +226,12 @@ public class SynchController extends AppController {
                                 for(int i=0;i<data.length();i++){
                                     final Sale  sale = new Sale();
                                     sale.setId(data.getJSONObject(i).getString("mobile_id"));
+                                    sale.setItem_id(data.getJSONObject(i).getString("item_id"));
+                                    sale.setItem_name(data.getJSONObject(i).getString("item_name"));
+                                    sale.setItem_unit(data.getJSONObject(i).getString("item_unit"));
+                                    sale.setItem_price(data.getJSONObject(i).getInt("item_unit"));
+                                    sale.setPartner_id(data.getJSONObject(i).getString("partner_id"));
+                                    sale.setAmount(data.getJSONObject(i).getInt("amount"));
                                     sale.setStatus("");
                                     realm.executeTransaction(new Realm.Transaction() {
                                         @Override
@@ -253,7 +260,7 @@ public class SynchController extends AppController {
         getInstance().getRequestQueue().add(jsonObjectRequest);
     }
 
-    public void synchPartners(){
+    public static void synchPartners(){
         String NAME = "Partners";
         String url = getInstance().getString(R.string.server_url) + "/" + NAME ;
         final JSONObject params  = new JSONObject();
@@ -269,6 +276,7 @@ public class SynchController extends AppController {
                     param.put("name", partner.getName());
                     param.put("address",partner.getAddress());
                     param.put("phone",partner.getPhone());
+                    param.put("user_id", user.getId());
                     partnersArray.put(param);
                 }
                 params.put("partners", partnersArray);
@@ -292,6 +300,10 @@ public class SynchController extends AppController {
                                 for(int i=0;i<data.length();i++){
                                     final Partner  partner = new Partner();
                                     partner.setId(data.getJSONObject(i).getString("mobile_id"));
+                                    partner.setName(data.getJSONObject(i).getString("name"));
+                                    partner.setAddress(data.getJSONObject(i).getString("address"));
+                                    partner.setPhone(data.getJSONObject(i).getString("phone"));
+                                    partner.setUser_id(data.getJSONObject(i).getInt("user_id"));
                                     partner.setStatus("");
                                     realm.executeTransaction(new Realm.Transaction() {
                                         @Override
@@ -301,6 +313,8 @@ public class SynchController extends AppController {
                                             realm.copyToRealmOrUpdate(partner);
                                         }
                                     });
+
+                                    realm.close();
                                 }
                             }
 

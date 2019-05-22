@@ -13,7 +13,7 @@ public class Partner extends RealmObject {
     private String name;
     private String phone;
     private String address;
-    private String status;
+    private String status = "new";
     private long user_id;
 
     public void setId(String id){
