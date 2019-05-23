@@ -23,10 +23,10 @@ import io.realm.RealmResults;
 public class SynchController extends AppController {
     private static String TAG = "SynchController";
     public static void synchAll(){
+        synchItems();
         synchPartners();
         //synchSales();
         //synchDebts();
-        synchItems();
     }
 
     public static void synchItems(){
@@ -37,10 +37,9 @@ public class SynchController extends AppController {
         final User user = realm.where(User.class).findFirst();
         try {
             if(user != null) {
-                final RealmResults<Item> items = realm.where(Item.class).
-                        equalTo("changed",true).findAll();
-                JSONArray partnersArray = new JSONArray();
-                for(Item item : items){
+                final RealmResults<Item> items = realm.where(Item.class).findAll();
+                JSONArray itemsArray = new JSONArray();
+                for(final Item item : items){
                     JSONObject param = new JSONObject();
                     param.put("mobile_id", item.getId());
                     param.put("name", item.getName());
@@ -50,9 +49,9 @@ public class SynchController extends AppController {
                     param.put("barcode", item.getBarcode());
                     param.put("acc_code", item.getAcc_code());
                     param.put("unit_string", item.getUnit_string());
-                    partnersArray.put(param);
+                    itemsArray.put(param);
                 }
-                params.put("debts", partnersArray);
+                params.put("items", itemsArray);
                 url += "?token=" + user.getToken();
             }
         } catch (JSONException e) {
@@ -72,7 +71,9 @@ public class SynchController extends AppController {
                             if(data.length() > 0){
                                 for(int i=0;i<data.length();i++){
                                     final Item  item = new Item();
-                                    item.setId(data.getJSONObject(i).getString("mobile_id"));
+                                    if(!data.getJSONObject(i).isNull("mobile_id")) {
+                                        item.setId(data.getJSONObject(i).getString("mobile_id"));
+                                    }
                                     item.setCount(data.getJSONObject(i).getInt("amount"));
                                     item.setName(data.getJSONObject(i).getString("name"));
                                     item.setCount(data.getJSONObject(i).getInt("amount"));

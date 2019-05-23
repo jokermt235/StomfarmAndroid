@@ -18,6 +18,7 @@ public class Item extends RealmObject {
     private long store_id;
     private long price;
     private long user_id;
+    private boolean deleted = false;
     private boolean changed = false;
 
     public void setUser_id(long user_id){
