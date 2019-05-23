@@ -11,6 +11,8 @@ public class Order extends RealmObject {
     private String id = UUID.randomUUID().toString();
     private Date created = new Date();
     private long user_id;
+    private String partner_id;
+    private long item_amount;
     private String status = "ready";
 
     public void setUser_id(Long user_id){

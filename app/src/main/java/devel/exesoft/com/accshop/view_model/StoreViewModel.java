@@ -51,12 +51,13 @@ public class StoreViewModel extends BaseObservable {
 
     public StoreViewModel(StorageActivity pContext){
         mContext = pContext;
-        if(!StoreContoller.isExist()){
-            mContext.activityStorageBinding.storageToolbar.setTitle("Необходима синхронизация...");
-        }else{
-            setStore();
-        }
+        //if(!StoreContoller.isExist()){
+            //mContext.activityStorageBinding.storageToolbar.setTitle("Необходима синхронизация...");
+        //}else{
+            //setStore();
+        //}
         //onSyncClicked();
+        fillItemList();
     }
 
     private StorageActivity getContext(){

@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,6 +32,8 @@ public class ClientsActivity extends AppCompatActivity {
 
     ListView mListviewPartners;
     ImageButton mImageButton;
+
+    private static String TAG = "ClientsActivity";
 
     FloatingActionButton mFloatingButton;
 
@@ -60,7 +63,7 @@ public class ClientsActivity extends AppCompatActivity {
 
         final RealmResults<Partner> clients = realm.where(Partner.class).findAll();
         int[] items = {R.id.partner_id, R.id.textview_partner_name, R.id.textview_partner_phone, R.id.textview_client_debt};
-        String[] items2 = {"id","Name","Phone","Debt"};
+        String[] items2 = {"Id","Name","Phone","Debt"};
         List<HashMap<String, Object>> aList = new ArrayList<HashMap<String, Object>>();
         if(clients.size() > 0){
             for(Partner partner: clients) {
@@ -69,6 +72,7 @@ public class ClientsActivity extends AppCompatActivity {
                 hm.put("Name", partner.getName());
                 hm.put("Phone",partner.getPhone());
                 hm.put("Debt", "0 СОМ");
+                Log.d(TAG, "ID of client is :" + partner.getName());
                 aList.add(hm);
             }
 
