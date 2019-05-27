@@ -129,7 +129,7 @@ public class PartnerViewModel extends Observable {
                     public void execute(Realm realm) {
                         // This will create a new object in Realm or throw an exception if the
                         // object already exists (same primary key
-                        storeItem.deleteFromRealm();
+                        storeItem.setDeleted(true);
                     }
                 });
             }else {

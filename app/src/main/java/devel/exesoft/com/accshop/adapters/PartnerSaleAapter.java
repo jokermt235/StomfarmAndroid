@@ -48,7 +48,7 @@ public class PartnerSaleAapter extends BaseAdapter {
             viewHolder = (ViewHolder)view.getTag();
         }
         viewHolder.saleItemName.setText(getItem(position).getItem_name());
-        viewHolder.saleItemDate.setText(getItem(position).getCreated().toString());
+        viewHolder.saleItemDate.setText(getItem(position).getCreated().toLocaleString());
         viewHolder.saleItemAmount.setText(String.valueOf(getItem(position).getAmount()));
         viewHolder.saleItemUnit.setText(getItem(position).getItem_unit());
         viewHolder.saleItemAvgPrice.setText(String.valueOf(getItem(position).getAmount() * getItem(position).getItem_price()));

@@ -23,6 +23,7 @@ import devel.exesoft.com.accshop.controller.DebtsController;
 import devel.exesoft.com.accshop.controller.ItemController;
 import devel.exesoft.com.accshop.controller.PartnerController;
 import devel.exesoft.com.accshop.controller.StoreContoller;
+import devel.exesoft.com.accshop.controller.SynchController;
 import devel.exesoft.com.accshop.model.Debt;
 import devel.exesoft.com.accshop.model.Item;
 import devel.exesoft.com.accshop.model.Partner;
@@ -51,6 +52,7 @@ public class StoreViewModel extends BaseObservable {
 
     public StoreViewModel(StorageActivity pContext){
         mContext = pContext;
+        mContext.activityStorageBinding.storageToolbar.setTitle("Необходима синхронизация...");
         //if(!StoreContoller.isExist()){
             //mContext.activityStorageBinding.storageToolbar.setTitle("Необходима синхронизация...");
         //}else{
@@ -81,75 +83,10 @@ public class StoreViewModel extends BaseObservable {
     }
 
     public void onSyncClicked(){
-        String url = AppController.getInstance().getString(R.string.server_url) + "/" + NAME;
-        JSONObject params  = new JSONObject();
-        final Realm realm = Realm.getDefaultInstance();
-        User user = realm.where(User.class).findFirst();
-        try {
-            if(user != null) {
-                params.put("token", user.getToken());
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
         mContext.activityStorageBinding.storageToolbar.setTitle("Идет загрузка ...");
-        try {
-            final CustomStringRequest jsonObjectRequest = new CustomStringRequest(url, params, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.e(TAG, response);
-                    if (response != null) {
-                        try {
-                            JSONObject result = new JSONObject(response);
-
-                            if (result.getBoolean("success")) {
-                                JSONArray data = result.getJSONArray("data");
-                                Log.d(TAG, data.toString());
-
-                                if(data.length() >= 0) {
-                                    ItemController.trancate();
-                                    for(int i=0;i< data.length(); i++) {
-                                        JSONObject serverItem = data.getJSONObject(i);
-                                        final Item item = new Item();
-                                        item.setAcc_code(serverItem.getString("acc_code"));
-                                        item.setName(serverItem.getString("name"));
-                                        item.setBarcode(serverItem.getString("barcode"));
-                                        item.setCount(serverItem.getInt("amount"));
-                                        item.setUnit_string(serverItem.getString("unit_string"));
-                                        item.setPrice(serverItem.getInt("offer_price"));
-                                        realm.executeTransaction(new Realm.Transaction() {
-                                            @Override
-                                            public void execute(Realm realm) {
-                                                // This will create a new object in Realm or throw an exception if the
-                                                // object already exists (same primary key)
-                                                realm.copyToRealm(item);
-                                                //activityStorageBinding.storageToolbar.setTitle(store.getName());
-                                            }
-                                        });
-                                    }
-                                    mContext.activityStorageBinding.storageToolbar.setTitle("");
-                                    fillItemList();
-                                    realm.close();
-                                }
-                            }
-                        } catch (Exception excp) {
-                            Log.e(TAG, excp.toString());
-                        }
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                }
-            });
-
-            AppController.getInstance().getRequestQueue().add(jsonObjectRequest);
-        }catch (UnsupportedEncodingException e){
-            e.printStackTrace();
-        }
-
-        synchServerData();
+        SynchController.synchItems();
+        mContext.activityStorageBinding.storageToolbar.setTitle("Склад");
     }
 
     public void onExportClicked(){

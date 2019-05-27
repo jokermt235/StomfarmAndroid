@@ -20,6 +20,27 @@ public class Item extends RealmObject {
     private long user_id;
     private boolean deleted = false;
     private boolean changed = false;
+    private long server_code;
+
+    public boolean getChanged(){
+        return  this.changed;
+    }
+
+    public void setServer_code(long server_code){
+        this.server_code = server_code;
+    }
+
+    public long getServer_code(){
+        return  this.server_code;
+    }
+
+    public void setDeleted(boolean deleted){
+        this.deleted = deleted;
+    }
+
+    public boolean getDeleted(){
+        return  this.deleted;
+    }
 
     public void setUser_id(long user_id){
         this.user_id = user_id;
