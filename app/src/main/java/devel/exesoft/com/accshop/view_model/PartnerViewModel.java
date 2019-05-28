@@ -186,7 +186,7 @@ public class PartnerViewModel extends Observable {
         ArrayList<Sale> saleItems  = new ArrayList();
         //items.add();
         Realm realm = Realm.getDefaultInstance();
-        final RealmResults<Sale> items = realm.where(Sale.class).findAll();
+        final RealmResults<Sale> items = realm.where(Sale.class).equalTo("partner_id", mContext.partner_id).findAll();
         ListView listView = (ListView)mContext.findViewById(R.id.partner_sale_list);
         for(Sale item : items){
             saleItems.add(item);
@@ -199,7 +199,7 @@ public class PartnerViewModel extends Observable {
         ArrayList<Debt> debtItems  = new ArrayList();
         //items.add();
         Realm realm = Realm.getDefaultInstance();
-        final RealmResults<Debt> items = realm.where(Debt.class).findAll();
+        final RealmResults<Debt> items = realm.where(Debt.class).equalTo("partner_id", mContext.partner_id).findAll();
         ListView listView = (ListView)mContext.findViewById(R.id.partner_debt_list);
         for(Debt item : items){
             debtItems.add(item);

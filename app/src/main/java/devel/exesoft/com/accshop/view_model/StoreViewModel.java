@@ -87,6 +87,7 @@ public class StoreViewModel extends BaseObservable {
         mContext.activityStorageBinding.storageToolbar.setTitle("Идет загрузка ...");
         SynchController.synchItems();
         mContext.activityStorageBinding.storageToolbar.setTitle("Склад");
+        fillItemList();
     }
 
     public void onExportClicked(){

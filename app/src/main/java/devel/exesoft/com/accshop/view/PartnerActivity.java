@@ -33,7 +33,7 @@ public class PartnerActivity extends AppCompatActivity {
         viewModel = new PartnerViewModel(this);
         activityPartnerBinding.setViewModel(viewModel);
         activityPartnerBinding.executePendingBindings();
-        partner_id = id;
+
         if(id != null){
             Realm realm = Realm.getDefaultInstance();
             Partner partner = realm.where(Partner.class).equalTo("id", id).findFirst();
@@ -43,6 +43,7 @@ public class PartnerActivity extends AppCompatActivity {
                 activityPartnerBinding.toolbarPartner.setTitle(partner.getName());
             }
             realm.close();
+            partner_id = id;
         }
 
     }
@@ -64,5 +65,6 @@ public class PartnerActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        //PartnerActivity.this.finish();
     }
 }

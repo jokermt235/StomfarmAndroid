@@ -10,6 +10,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+
 import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.model.Debt;
 import devel.exesoft.com.accshop.model.Item;
@@ -56,6 +58,8 @@ public class SynchController extends AppController {
                 }
                 params.put("items", itemsArray);
                 url += "?token=" + user.getToken();
+
+                Log.d(TAG, params.toString());
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -72,18 +76,14 @@ public class SynchController extends AppController {
                         if(result.getBoolean("success")){
                             JSONArray data = result.getJSONArray("data");
                             if(data.length() > 0){
-
-                                final RealmResults<Item> _items = realm.where(Item.class).findAll();
-                                for(final Item item : _items) {
-                                    realm.executeTransaction(new Realm.Transaction() {
-                                        @Override
-                                        public void execute(Realm realm) {
-                                            // This will create a new object in Realm or throw an exception if the
-                                            // object already exists (same primary key)
-                                            item.deleteFromRealm();
-                                        }
-                                    });
-                                }
+                                realm.executeTransaction(new Realm.Transaction() {
+                                    @Override
+                                    public void execute(Realm realm) {
+                                        // This will create a new object in Realm or throw an exception if the
+                                        // object already exists (same primary key)
+                                        realm.delete(Item.class);
+                                    }
+                                });
 
                                 for(int i=0;i<data.length();i++){
                                     final Item  item = new Item();
@@ -133,6 +133,7 @@ public class SynchController extends AppController {
         final JSONObject params  = new JSONObject();
         final Realm realm = Realm.getDefaultInstance();
         User user = realm.where(User.class).findFirst();
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             if(user != null) {
                 final RealmResults<Debt> debts = realm.where(Debt.class).equalTo("status","new").findAll();
@@ -147,7 +148,7 @@ public class SynchController extends AppController {
                     param.put("partner_id", debt.getPartner_id());
                     param.put("amount", debt.getAmount());
                     param.put("clc_status", debt.getClc_status());
-                    param.put("clc_timestamp", debt.getClc_timestamp());
+                    param.put("clc_timestamp", fmt.format(debt.getClc_timestamp()));
                     partnersArray.put(param);
                 }
                 params.put("debts", partnersArray);
@@ -171,6 +172,12 @@ public class SynchController extends AppController {
                                 for(int i=0;i<data.length();i++){
                                     final Debt  debt = new Debt();
                                     debt.setId(data.getJSONObject(i).getString("mobile_id"));
+                                    debt.setItem_id(data.getJSONObject(i).getString("item_id"));
+                                    debt.setItem_name(data.getJSONObject(i).getString("item_name"));
+                                    debt.setItem_unit(data.getJSONObject(i).getString("item_unit"));
+                                    debt.setItem_price(data.getJSONObject(i).getInt("item_price"));
+                                    debt.setPartner_id(data.getJSONObject(i).getString("partner_id"));
+                                    debt.setAmount(data.getJSONObject(i).getInt("amount"));
                                     debt.setStatus("");
                                     realm.executeTransaction(new Realm.Transaction() {
                                         @Override
@@ -220,8 +227,9 @@ public class SynchController extends AppController {
                     param.put("amount", sale.getAmount());
                     salesArray.put(param);
                 }
-                params.put("sales", sales);
+                params.put("sales", salesArray);
                 url += "?token=" + user.getToken();
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -244,7 +252,7 @@ public class SynchController extends AppController {
                                     sale.setItem_id(data.getJSONObject(i).getString("item_id"));
                                     sale.setItem_name(data.getJSONObject(i).getString("item_name"));
                                     sale.setItem_unit(data.getJSONObject(i).getString("item_unit"));
-                                    sale.setItem_price(data.getJSONObject(i).getInt("item_unit"));
+                                    sale.setItem_price(data.getJSONObject(i).getInt("item_price"));
                                     sale.setPartner_id(data.getJSONObject(i).getString("partner_id"));
                                     sale.setAmount(data.getJSONObject(i).getInt("amount"));
                                     sale.setStatus("");
@@ -254,9 +262,11 @@ public class SynchController extends AppController {
                                             // This will create a new object in Realm or throw an exception if the
                                             // object already exists (same primary key)
                                             realm.copyToRealmOrUpdate(sale);
+
                                         }
                                     });
                                 }
+                                realm.close();
                             }
 
                         }
@@ -328,9 +338,8 @@ public class SynchController extends AppController {
                                             realm.copyToRealmOrUpdate(partner);
                                         }
                                     });
-
-                                    realm.close();
                                 }
+                                realm.close();
                             }
 
                         }

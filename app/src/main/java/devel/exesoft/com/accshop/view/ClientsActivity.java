@@ -37,6 +37,8 @@ public class ClientsActivity extends AppCompatActivity {
 
     FloatingActionButton mFloatingButton;
 
+    RealmResults<Partner> clients;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +63,7 @@ public class ClientsActivity extends AppCompatActivity {
     {
         Realm realm = Realm.getDefaultInstance();
 
-        final RealmResults<Partner> clients = realm.where(Partner.class).findAll();
+        clients = realm.where(Partner.class).findAll();
         int[] items = {R.id.partner_id, R.id.textview_partner_name, R.id.textview_partner_phone, R.id.textview_client_debt};
         String[] items2 = {"Id","Name","Phone","Debt"};
         List<HashMap<String, Object>> aList = new ArrayList<HashMap<String, Object>>();
@@ -72,11 +74,10 @@ public class ClientsActivity extends AppCompatActivity {
                 hm.put("Name", partner.getName());
                 hm.put("Phone",partner.getPhone());
                 hm.put("Debt", "0 СОМ");
-                Log.d(TAG, "ID of client is :" + partner.getName());
+                Log.d(TAG, "PARTNER ID FOR LIST" + partner.getId());
                 aList.add(hm);
             }
 
-        }else{
         }
 
         activityClientsBinding.listviewPartners.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -93,7 +94,7 @@ public class ClientsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent  = new Intent(ClientsActivity.this, PartnerActivity.class);
                 TextView id = (TextView)view.findViewById(R.id.partner_id);
-                intent.putExtra("id", id.getText());
+                intent.putExtra("id", clients.get(i).getId());
                 ClientsActivity.this.startActivity(intent);
             }
         });
@@ -108,8 +109,9 @@ public class ClientsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
+        super.onBackPressed();
         Intent lIntent = new Intent(ClientsActivity.this, MainActivity.class);
         ClientsActivity.this.startActivity(lIntent);
+        finish();
     }
 }

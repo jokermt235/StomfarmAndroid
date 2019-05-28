@@ -63,11 +63,7 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             if(isNetworkAvailable()) {
                 Log.d(TAG, "The repeating task has been running!!!");
-<<<<<<< HEAD
-                SynchController.synchItems();
-=======
                 SynchController.synchAll();
->>>>>>> f5eef9e8a70147f73d400bfd39b9904486f69592
             }
             mHandler.postDelayed(mHandlerTask, INTERVAL);
         }
