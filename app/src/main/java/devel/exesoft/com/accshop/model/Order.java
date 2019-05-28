@@ -13,6 +13,8 @@ public class Order extends RealmObject {
     private long user_id;
     private String partner_id;
     private long item_amount;
+    private long item_unit;
+    private long intem_price;
     private String status = "ready";
 
     public void setUser_id(Long user_id){

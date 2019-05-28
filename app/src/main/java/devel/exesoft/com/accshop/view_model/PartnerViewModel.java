@@ -122,9 +122,16 @@ public class PartnerViewModel extends Observable {
             }
 
             realm.beginTransaction();
-            Item storeItem = item.getItem();
+            final Item storeItem = item.getItem();
             if(storeItem.getCount() - item.getCount() <= 0) {
-                storeItem.deleteFromRealm();
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        // This will create a new object in Realm or throw an exception if the
+                        // object already exists (same primary key
+                        storeItem.setDeleted(true);
+                    }
+                });
             }else {
                 storeItem.setCount(storeItem.getCount() - item.getCount());
                 storeItem.setChanged(true);

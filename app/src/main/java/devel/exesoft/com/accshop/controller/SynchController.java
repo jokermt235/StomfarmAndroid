@@ -23,10 +23,10 @@ import io.realm.RealmResults;
 public class SynchController extends AppController {
     private static String TAG = "SynchController";
     public static void synchAll(){
+        //synchItems();
         synchPartners();
-        //synchSales();
-        //synchDebts();
-        synchItems();
+        synchSales();
+        synchDebts();
     }
 
     public static void synchItems(){
@@ -37,10 +37,9 @@ public class SynchController extends AppController {
         final User user = realm.where(User.class).findFirst();
         try {
             if(user != null) {
-                final RealmResults<Item> items = realm.where(Item.class).
-                        equalTo("changed",true).findAll();
-                JSONArray partnersArray = new JSONArray();
-                for(Item item : items){
+                final RealmResults<Item> items = realm.where(Item.class).findAll();
+                JSONArray itemsArray = new JSONArray();
+                for(final Item item : items){
                     JSONObject param = new JSONObject();
                     param.put("mobile_id", item.getId());
                     param.put("name", item.getName());
@@ -50,9 +49,12 @@ public class SynchController extends AppController {
                     param.put("barcode", item.getBarcode());
                     param.put("acc_code", item.getAcc_code());
                     param.put("unit_string", item.getUnit_string());
-                    partnersArray.put(param);
+                    param.put("server_code", item.getServer_code());
+                    param.put("changed", item.getChanged());
+                    param.put("deleted", item.getDeleted());
+                    itemsArray.put(param);
                 }
-                params.put("debts", partnersArray);
+                params.put("items", itemsArray);
                 url += "?token=" + user.getToken();
             }
         } catch (JSONException e) {
@@ -70,9 +72,21 @@ public class SynchController extends AppController {
                         if(result.getBoolean("success")){
                             JSONArray data = result.getJSONArray("data");
                             if(data.length() > 0){
+
+                                final RealmResults<Item> _items = realm.where(Item.class).findAll();
+                                for(final Item item : _items) {
+                                    realm.executeTransaction(new Realm.Transaction() {
+                                        @Override
+                                        public void execute(Realm realm) {
+                                            // This will create a new object in Realm or throw an exception if the
+                                            // object already exists (same primary key)
+                                            item.deleteFromRealm();
+                                        }
+                                    });
+                                }
+
                                 for(int i=0;i<data.length();i++){
                                     final Item  item = new Item();
-                                    item.setId(data.getJSONObject(i).getString("mobile_id"));
                                     item.setCount(data.getJSONObject(i).getInt("amount"));
                                     item.setName(data.getJSONObject(i).getString("name"));
                                     item.setCount(data.getJSONObject(i).getInt("amount"));
@@ -83,6 +97,7 @@ public class SynchController extends AppController {
                                     item.setStore_id(data.getJSONObject(i).getInt("storage_id"));
                                     item.setUser_id(user.getId());
                                     item.setChanged(false);
+                                    item.setServer_code(data.getJSONObject(i).getInt("server_code"));
                                     realm.executeTransaction(new Realm.Transaction() {
                                         @Override
                                         public void execute(Realm realm) {
