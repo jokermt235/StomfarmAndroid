@@ -23,6 +23,7 @@ import java.util.List;
 
 import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.databinding.ActivityClientsBinding;
+import devel.exesoft.com.accshop.model.Debt;
 import devel.exesoft.com.accshop.model.Partner;
 import devel.exesoft.com.accshop.view_model.ClientsViewModel;
 import io.realm.Realm;
@@ -73,7 +74,7 @@ public class ClientsActivity extends AppCompatActivity {
                 hm.put("Id", partner.getId());
                 hm.put("Name", partner.getName());
                 hm.put("Phone",partner.getPhone());
-                hm.put("Debt", "0 СОМ");
+                hm.put("Debt", getPartnerDebt(partner.getId(), realm));
                 Log.d(TAG, "PARTNER ID FOR LIST" + partner.getId());
                 aList.add(hm);
             }
@@ -86,6 +87,11 @@ public class ClientsActivity extends AppCompatActivity {
         SimpleAdapter simpleAdapter = new SimpleAdapter(this, aList, R.layout.partners_listview_item_view, items2, items);
         activityClientsBinding.listviewPartners.setAdapter(simpleAdapter);
         listViewEvents(activityClientsBinding.listviewPartners);
+    }
+
+    private long getPartnerDebt(String partner_id, Realm realm){
+        long sum = realm.where(Debt.class).equalTo("partner_id", partner_id).sum("debt_avg").longValue();
+        return  sum;
     }
 
     private void listViewEvents(ListView pListviewPartners){

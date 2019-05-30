@@ -99,6 +99,7 @@ public class PartnerViewModel extends Observable {
                 debt.setItem_name(item.getName());
                 debt.setItem_price(item.getPrice());
                 debt.setItem_unit(item.getUnit_string());
+                debt.setDebt_avg(item.getCount() * item.getPrice());
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
@@ -121,7 +122,6 @@ public class PartnerViewModel extends Observable {
                 });
             }
 
-            realm.beginTransaction();
             final Item storeItem = item.getItem();
             if(storeItem.getCount() - item.getCount() <= 0) {
                 realm.executeTransaction(new Realm.Transaction() {
@@ -130,13 +130,21 @@ public class PartnerViewModel extends Observable {
                         // This will create a new object in Realm or throw an exception if the
                         // object already exists (same primary key
                         storeItem.setDeleted(true);
+                        realm.copyToRealmOrUpdate(storeItem);
                     }
                 });
             }else {
-                storeItem.setCount(storeItem.getCount() - item.getCount());
-                storeItem.setChanged(true);
-                realm.copyToRealmOrUpdate(storeItem);
-                realm.commitTransaction();
+                final int cnt = storeItem.getCount() - item.getCount();
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        // This will create a new object in Realm or throw an exception if the
+                        // object already exists (same primary key
+                        storeItem.setCount(cnt);
+                        storeItem.setChanged(true);
+                        realm.copyToRealmOrUpdate(storeItem);
+                    }
+                });
             }
         }
         realm.close();

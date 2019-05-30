@@ -324,7 +324,9 @@ public class SynchController extends AppController {
                             if(data.length() > 0){
                                 for(int i=0;i<data.length();i++){
                                     final Partner  partner = new Partner();
-                                    partner.setId(data.getJSONObject(i).getString("mobile_id"));
+                                    if(!data.getJSONObject(i).getString("mobile_id").isEmpty()){
+                                        partner.setId(data.getJSONObject(i).getString("mobile_id"));
+                                    }
                                     partner.setName(data.getJSONObject(i).getString("name"));
                                     partner.setAddress(data.getJSONObject(i).getString("address"));
                                     partner.setPhone(data.getJSONObject(i).getString("phone"));

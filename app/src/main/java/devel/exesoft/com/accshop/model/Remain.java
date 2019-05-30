@@ -13,6 +13,8 @@ public class Remain extends RealmObject {
     private String item_unit = "шт.";
     private long server_code;
     private String barcode;
+    private long item_peice;
+    private String item_id;
     private long item_amount = 0;
     private Date created = new Date();
 

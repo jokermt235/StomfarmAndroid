@@ -20,6 +20,16 @@ public class Debt extends RealmObject {
     private boolean clc_status = false;
     private  String status = "new";
 
+    private long debt_avg = 0;
+
+    public void setDebt_avg(long debt_avg){
+        this.debt_avg = debt_avg;
+    }
+
+    public long getDebt_avg(){
+        return debt_avg;
+    }
+
     public String getId(){
         return  id;
     }
