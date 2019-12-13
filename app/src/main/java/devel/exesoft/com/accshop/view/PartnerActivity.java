@@ -29,6 +29,7 @@ public class PartnerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         String id = intent.getStringExtra("id");
+        partner_id = id;
         activityPartnerBinding = DataBindingUtil.setContentView(this, R.layout.activity_partner);
         viewModel = new PartnerViewModel(this);
         activityPartnerBinding.setViewModel(viewModel);

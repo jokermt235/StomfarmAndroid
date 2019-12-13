@@ -8,7 +8,7 @@
         <item>Склад</item>
     </string-array>
     <string name="server_url">
-        http://test.exesoft.org/RestService/api
+        http://test.exesoft.org:8888/StomRestService/api
     </string>
     <string name="summ_title">Сумма : </string>
     <string name="currency">СОМ</string>

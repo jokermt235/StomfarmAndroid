@@ -75,10 +75,10 @@ public class PartnerViewModel extends Observable {
 
     private void initDefaults(){
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<Debt> results = realm.where(Debt.class).findAll();
+        RealmResults<Debt> results = realm.where(Debt.class).equalTo("partner_id", mContext.partner_id).findAll();
         long sum = 0;
         for(Debt debt : results){
-            sum += debt.getItem_price();
+            sum += (debt.getItem_price() * debt.getAmount());
         }
         mContext.activityPartnerBinding.clientDebt.setText(String.valueOf(sum));
     }
@@ -210,9 +210,26 @@ public class PartnerViewModel extends Observable {
         final RealmResults<Debt> items = realm.where(Debt.class).equalTo("partner_id", mContext.partner_id).findAll();
         ListView listView = (ListView)mContext.findViewById(R.id.partner_debt_list);
         for(Debt item : items){
-            debtItems.add(item);
+            if(!item.getClc_status()) {
+                debtItems.add(item);
+            }
         }
         PartnerDebtAdapter storeItemAdapter = new PartnerDebtAdapter(mContext, debtItems);
         listView.setAdapter(storeItemAdapter);
+    }
+
+    public void setClcStatus(String item_id){
+        Realm realm = Realm.getDefaultInstance();
+        final Debt item = realm.where(Debt.class).equalTo("id", item_id).findFirst();
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                item.setClc_status(true);
+                realm.copyToRealmOrUpdate(item);
+            }
+        });
+        fillDebtList();
+        realm.close();
     }
 }

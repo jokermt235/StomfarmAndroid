@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -15,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import devel.exesoft.com.accshop.R;
+import devel.exesoft.com.accshop.controller.UserController;
+import devel.exesoft.com.accshop.model.User;
+import io.realm.Realm;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -51,7 +55,19 @@ public class HomeActivity extends AppCompatActivity {
 
         listViewEvents(mHomeLeftMenu);
 
-        setToolbarTitle("Test User");
+        setToolbarTitle(getToolbarTitle());
+    }
+
+    private String getToolbarTitle(){
+        String title = "";
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            User user = realm.where(User.class).findFirst();
+            title = user.getFio();
+        } finally {
+            realm.close();
+        }
+        return title;
     }
 
     private void setToolbarTitle(String title){
@@ -66,19 +82,26 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.home_toolbar_menu_item1: UserController.logout(getApplicationContext(), this); return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public void listViewEvents(ListView pHomeLeftMenu)
     {
         pHomeLeftMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //Toast.makeText(getApplicationContext(),Integer.toString(i), Toast.LENGTH_LONG).show();
                 switch (i){
-                    case 0 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, ClientsActivity.class));break;
-                    case 1 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, DebtsActivity.class));break;
-                    case 2 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, OrdersActivity.class));break;
-                    case 3 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, StorageActivity.class));break;
-                    //case 4 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, ClientsActivity.class));break;
+                    case 0 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, ClientsActivity.class));finish();break;
+                    case 1 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, DebtsActivity.class));finish();break;
+                    case 2 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, OrdersActivity.class));finish();break;
+                    case 3 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, StorageActivity.class));finish();break;
                 }
             }
         });

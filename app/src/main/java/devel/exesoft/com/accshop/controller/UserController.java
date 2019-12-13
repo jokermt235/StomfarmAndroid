@@ -1,5 +1,6 @@
 package devel.exesoft.com.accshop.controller;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
@@ -14,13 +15,36 @@ import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.model.User;
 import devel.exesoft.com.accshop.view.CustomStringRequest;
 import devel.exesoft.com.accshop.view.HomeActivity;
+import devel.exesoft.com.accshop.view.LoginActivity;
+import devel.exesoft.com.accshop.view.MainActivity;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class UserController extends AppController {
 
     private static  final String TAG  = "UserController";
 
     private static  final String NAME = "Users";
+
+
+    public static void logout(Context context,HomeActivity activity){
+        try {
+            final Realm realm = Realm.getDefaultInstance();
+            final User user = realm.where(User.class).findFirst();
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm pRealm) {
+                    pRealm.deleteAll();
+                    realm.close();
+                }
+            });
+            Intent lIntent = new Intent(activity, LoginActivity.class);
+            activity.startActivity(lIntent);
+            activity.finish();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     public static void login(String username, String password) {
 

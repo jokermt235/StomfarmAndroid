@@ -54,6 +54,14 @@ public class SynchController extends AppController {
                     param.put("server_code", item.getServer_code());
                     param.put("changed", item.getChanged());
                     param.put("deleted", item.getDeleted());
+                    realm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm pRealm) {
+                            // This will create a new object in Realm or throw an exception if the
+                            // object already exists (same primary key)
+                            pRealm.delete(Item.class);
+                        }
+                    });
                     itemsArray.put(param);
                 }
                 params.put("items", itemsArray);
@@ -64,7 +72,7 @@ public class SynchController extends AppController {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        Log.d(TAG, url);
         CustomStringRequest jsonObjectRequest = new CustomStringRequest(Request.Method.POST, url, params, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -76,15 +84,6 @@ public class SynchController extends AppController {
                         if(result.getBoolean("success")){
                             JSONArray data = result.getJSONArray("data");
                             if(data.length() > 0){
-                                realm.executeTransaction(new Realm.Transaction() {
-                                    @Override
-                                    public void execute(Realm realm) {
-                                        // This will create a new object in Realm or throw an exception if the
-                                        // object already exists (same primary key)
-                                        realm.delete(Item.class);
-                                    }
-                                });
-
                                 for(int i=0;i<data.length();i++){
                                     final Item  item = new Item();
                                     item.setCount(data.getJSONObject(i).getInt("amount"));
@@ -100,15 +99,17 @@ public class SynchController extends AppController {
                                     item.setServer_code(data.getJSONObject(i).getInt("server_code"));
                                     realm.executeTransaction(new Realm.Transaction() {
                                         @Override
-                                        public void execute(Realm realm) {
+                                        public void execute(Realm pRealm) {
                                             // This will create a new object in Realm or throw an exception if the
                                             // object already exists (same primary key)
-                                            realm.copyToRealmOrUpdate(item);
+                                            pRealm.copyToRealmOrUpdate(item);
                                         }
                                     });
 
-                                    realm.close();
+
                                 }
+
+                                realm.close();
                             }
 
                         }
@@ -177,6 +178,7 @@ public class SynchController extends AppController {
                                     debt.setItem_unit(data.getJSONObject(i).getString("item_unit"));
                                     debt.setItem_price(data.getJSONObject(i).getInt("item_price"));
                                     debt.setPartner_id(data.getJSONObject(i).getString("partner_id"));
+                                    debt.setClc_status(data.getJSONObject(i).getBoolean("clc_status"));
                                     debt.setAmount(data.getJSONObject(i).getInt("amount"));
                                     debt.setStatus("");
                                     realm.executeTransaction(new Realm.Transaction() {
@@ -359,5 +361,4 @@ public class SynchController extends AppController {
 
         getInstance().getRequestQueue().add(jsonObjectRequest);
     }
-
 }
