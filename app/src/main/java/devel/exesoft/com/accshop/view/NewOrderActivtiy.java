@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -19,12 +20,18 @@ import java.util.List;
 
 import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.databinding.ActivityNewOrderBinding;
+import devel.exesoft.com.accshop.model.Orderitem;
+import devel.exesoft.com.accshop.model.Partner;
 import devel.exesoft.com.accshop.view_model.NewOrderModelView;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class NewOrderActivtiy extends AppCompatActivity {
 
     FloatingActionButton mFloatingAddItemMannual;
     FloatingActionButton mScanItemFb;
+
+    private String partner_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +65,38 @@ public class NewOrderActivtiy extends AppCompatActivity {
         ViewGroup headerView = (ViewGroup)getLayoutInflater().inflate(R.layout.new_order_items_header, mItemListView,false);
         mItemListView.addHeaderView(headerView);
 
+        partner_id = getIntent().getStringExtra("partner_id");
+
         //mItemListView.setAdapter();
+        initItems();
         //ViewGroup headerView = (ViewGroup)
+    }
+
+    private void initItems() {
+        int[] items = {R.id.new_order_items_item_name, R.id.new_order_items_item_price, R.id.new_order_items_item_count,  R.id.new_order_items_item_unit};
+
+        String[] items2 = {"Name","Price","Count","Unit"};
+
+        final List<HashMap<String, Object>> aList = new ArrayList<HashMap<String, Object>>();
+
+        Realm realm = Realm.getDefaultInstance();
+
+        RealmResults<Orderitem> orderItems;
+
+        orderItems = realm.where(Orderitem.class).findAll();
+        for(Orderitem item: orderItems) {
+            HashMap<String, Object> hm = new HashMap<String, Object>();
+            hm.put("Name", item.getName());
+            hm.put("Price",item.getPrice());
+            hm.put("Count", item.getAmount() );
+            hm.put("Unit", item.getUnit());
+            aList.add(hm);
+        }
+        SimpleAdapter simpleAdapter = new SimpleAdapter(this, aList, R.layout.new_order_items_item, items2, items);
+
+        ListView mItemListView = (ListView)findViewById(R.id.new_order_listview_items);
+
+        mItemListView.setAdapter(simpleAdapter);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -95,25 +132,32 @@ public class NewOrderActivtiy extends AppCompatActivity {
 
     }
 
-    private void addItem(JSONObject jsonObject) throws  JSONException{
+    private void addItem(final JSONObject jsonObject) throws  JSONException{
 
-        int[] items = {R.id.new_order_items_item_name, R.id.new_order_items_item_price, R.id.new_order_items_item_count,  R.id.new_order_items_item_unit};
+        Realm realm = Realm.getDefaultInstance();
 
-        String[] items2 = {"Name","Price","Count","Unit"};
+        final Orderitem orderItem = new Orderitem();
 
-        List<HashMap<String, Object>> aList = new ArrayList<HashMap<String, Object>>();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm pRealm) {
+                // This will create a new object in Realm or throw an exception if the
+                // object already exists (same primary key)
+                HashMap<String, Object> hm = new HashMap<String, Object>();
+                try {
+                    orderItem.setName(jsonObject.getString("name"));
+                    orderItem.setAmount(Long.parseLong(jsonObject.getString("count")));
+                    orderItem.setPartner_id(partner_id);
+                    orderItem.setUnit("шт.");
+                    orderItem.setBarcode(jsonObject.getString("barcode"));
+                    orderItem.setPrice(Long.parseLong(jsonObject.getString("price")));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
 
-        HashMap<String, Object> hm = new HashMap<String, Object>();
-        hm.put("Name", jsonObject.getString("name"));
-        hm.put("Price",jsonObject.getString("barcode"));
-        hm.put("Count", jsonObject.getString("count"));
-        hm.put("Unit", "шт");
-        aList.add(hm);
+                pRealm.copyToRealmOrUpdate(orderItem);
+            }
+        });
 
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this, aList, R.layout.new_order_items_item, items2, items);
-
-        ListView mItemListView = (ListView)findViewById(R.id.new_order_listview_items);
-
-        mItemListView.setAdapter(simpleAdapter);
     }
 }

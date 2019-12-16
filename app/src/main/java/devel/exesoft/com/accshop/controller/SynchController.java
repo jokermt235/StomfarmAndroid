@@ -19,6 +19,7 @@ import devel.exesoft.com.accshop.model.Partner;
 import devel.exesoft.com.accshop.model.Sale;
 import devel.exesoft.com.accshop.model.User;
 import devel.exesoft.com.accshop.view.CustomStringRequest;
+import devel.exesoft.com.accshop.view.MainActivity;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -127,6 +128,11 @@ public class SynchController extends AppController {
 
         getInstance().getRequestQueue().add(jsonObjectRequest);
     }
+
+    public static void checkUser(MainActivity activity){
+
+    }
+
 
     public static void synchDebts(){
         String NAME = "Debts";
@@ -355,7 +361,7 @@ public class SynchController extends AppController {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, error.toString());
+                error.printStackTrace();
             }
         });
 

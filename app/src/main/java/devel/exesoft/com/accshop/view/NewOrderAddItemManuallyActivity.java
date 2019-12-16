@@ -40,9 +40,12 @@ public class NewOrderAddItemManuallyActivity extends AppCompatActivity {
 
         EditText mCount = findViewById(R.id.new_order_add_manually_count_edit_text);
 
+        EditText  mPrice = findViewById(R.id.new_order_add_manually_price_edit_text);
+
         try {
             mParams.put("name", mName.getText());
             mParams.put("barcode", mBarcode.getText());
+            mParams.put("price", mPrice.getText());
             mParams.put("count", mCount.getText());
         } catch (JSONException e) {
             e.printStackTrace();
