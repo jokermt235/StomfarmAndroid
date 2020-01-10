@@ -163,14 +163,19 @@ public class PartnerViewModel extends Observable {
                     }
                 }
 
-                if(scannedItems.size() > 0){
-                    ListView listView = (ListView)mContext.findViewById(R.id.scaned_item_list);
-                    listView.setAdapter(partnerItemAdapter);
-                    partnerItemAdapter.notifyDataSetChanged();
-                    setScannedCount();
-                }
             }
             if(requestCode == REQUST_CODE_MANNUAL){
+                Log.d(TAG, "The request code is equal to " + String.valueOf(REQUST_CODE_MANNUAL));
+                String id = data.getStringExtra("id");
+                Realm realm = Realm.getDefaultInstance();
+                Item  item = realm.where(Item.class).equalTo("id", id).findFirst();
+                scannedItems.add(new ScannedItem(item));
+            }
+            if(scannedItems.size() > 0){
+                ListView listView = (ListView)mContext.findViewById(R.id.scaned_item_list);
+                listView.setAdapter(partnerItemAdapter);
+                partnerItemAdapter.notifyDataSetChanged();
+                setScannedCount();
             }
         }
     }

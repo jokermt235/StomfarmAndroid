@@ -5,6 +5,8 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.databinding.ActivityPartnerBinding;
@@ -35,10 +37,10 @@ public class PartnerActivity extends AppCompatActivity {
         activityPartnerBinding.setViewModel(viewModel);
         activityPartnerBinding.executePendingBindings();
 
-        if(id != null){
+        if(id != null) {
             Realm realm = Realm.getDefaultInstance();
             Partner partner = realm.where(Partner.class).equalTo("id", id).findFirst();
-            if(partner != null){
+            if (partner != null) {
                 activityPartnerBinding.parnterPhone.setText(partner.getPhone());
                 activityPartnerBinding.partnerAddress.setText(partner.getAddress());
                 activityPartnerBinding.toolbarPartner.setTitle(partner.getName());
@@ -46,7 +48,7 @@ public class PartnerActivity extends AppCompatActivity {
             realm.close();
             partner_id = id;
         }
-
+        setSupportActionBar(activityPartnerBinding.toolbarPartner);
     }
 
 
@@ -66,6 +68,20 @@ public class PartnerActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        //PartnerActivity.this.finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.parnter_manual_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.add_mannual_item:startActivityForResult(new Intent(PartnerActivity.this, MannualActivity.class),2);return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
