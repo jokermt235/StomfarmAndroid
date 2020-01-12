@@ -1,5 +1,6 @@
 package devel.exesoft.com.accshop.view;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -32,5 +33,12 @@ public class DebtsActivity extends AppCompatActivity {
             }
         });
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent lIntent = new Intent(DebtsActivity.this, HomeActivity.class);
+        startActivity(lIntent);
+        finish();
     }
 }

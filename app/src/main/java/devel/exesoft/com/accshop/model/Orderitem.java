@@ -4,8 +4,10 @@ import java.util.Date;
 import java.util.UUID;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class Orderitem extends RealmObject {
+    @PrimaryKey
     private String id = UUID.randomUUID().toString();
     private String name;
     private Date created = new Date();

@@ -53,10 +53,6 @@ public class NewOrderAddItemManuallyActivity extends AppCompatActivity {
 
 
         mIntent.putExtra("new_item_data", mParams.toString());
-
-        //ClientsActivity.this.startActivity();
-
-        //NewOrderAddItemManuallyActivity.this.startActivity(mIntent);
         setResult(RESULT_OK, mIntent);
         NewOrderAddItemManuallyActivity.this.finish();
     }

@@ -115,7 +115,6 @@ public class ClientsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         Intent lIntent = new Intent(ClientsActivity.this, MainActivity.class);
         ClientsActivity.this.startActivity(lIntent);
         finish();

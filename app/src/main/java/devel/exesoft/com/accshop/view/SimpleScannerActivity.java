@@ -1,6 +1,9 @@
 package devel.exesoft.com.accshop.view;
 
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,6 +54,14 @@ public class SimpleScannerActivity extends AppCompatActivity implements ZXingSca
         //Log.v(TAG, rawResult.getBarcodeFormat().toString()); // Prints the scan format (qrcode, pdf417 etc.)
 
         // If you would like to resume scanning, call this method below:
+        try {
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(this, notification);
+            r.play();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         mScannerView.resumeCameraPreview(this);
 
         Intent mIntent = new Intent(SimpleScannerActivity.this, PartnerActivity.class);

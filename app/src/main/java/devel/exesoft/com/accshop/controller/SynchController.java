@@ -42,29 +42,6 @@ public class SynchController extends AppController {
             if(user != null) {
                 final RealmResults<Item> items = realm.where(Item.class).findAll();
                 JSONArray itemsArray = new JSONArray();
-                for(final Item item : items){
-                    JSONObject param = new JSONObject();
-                    param.put("mobile_id", item.getId());
-                    param.put("name", item.getName());
-                    param.put("price", item.getPrice());
-                    param.put("user_id", user.getId());
-                    param.put("amount", item.getCount());
-                    param.put("barcode", item.getBarcode());
-                    param.put("acc_code", item.getAcc_code());
-                    param.put("unit_string", item.getUnit_string());
-                    param.put("server_code", item.getServer_code());
-                    param.put("changed", item.getChanged());
-                    param.put("deleted", item.getDeleted());
-                    realm.executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm pRealm) {
-                            // This will create a new object in Realm or throw an exception if the
-                            // object already exists (same primary key)
-                            pRealm.delete(Item.class);
-                        }
-                    });
-                    itemsArray.put(param);
-                }
                 params.put("items", itemsArray);
                 url += "?token=" + user.getToken();
 

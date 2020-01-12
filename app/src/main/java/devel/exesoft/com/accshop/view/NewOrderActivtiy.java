@@ -36,7 +36,6 @@ public class NewOrderActivtiy extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_new_order);
 
         ActivityNewOrderBinding activityNewOrderBinding = DataBindingUtil.setContentView(this, R.layout.activity_new_order);
         activityNewOrderBinding.setViewModel(new NewOrderModelView());
@@ -66,10 +65,7 @@ public class NewOrderActivtiy extends AppCompatActivity {
         mItemListView.addHeaderView(headerView);
 
         partner_id = getIntent().getStringExtra("partner_id");
-
-        //mItemListView.setAdapter();
         initItems();
-        //ViewGroup headerView = (ViewGroup)
     }
 
     private void initItems() {
@@ -133,11 +129,8 @@ public class NewOrderActivtiy extends AppCompatActivity {
     }
 
     private void addItem(final JSONObject jsonObject) throws  JSONException{
-
         Realm realm = Realm.getDefaultInstance();
-
         final Orderitem orderItem = new Orderitem();
-
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm pRealm) {
@@ -154,10 +147,9 @@ public class NewOrderActivtiy extends AppCompatActivity {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
                 pRealm.copyToRealmOrUpdate(orderItem);
             }
         });
-
+        initItems();
     }
 }

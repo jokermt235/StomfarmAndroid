@@ -77,4 +77,11 @@ public class OrdersActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent lIntent = new Intent(OrdersActivity.this, HomeActivity.class);
+        startActivity(lIntent);
+        finish();
+    }
 }

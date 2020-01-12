@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +45,6 @@ public class PartnerViewModel extends Observable {
         mContext.activityPartnerBinding.partnerViewPager.setOnPageChangeListener(
                 new TabLayout.TabLayoutOnPageChangeListener(mContext.activityPartnerBinding.tablayoutPartner)
         );
-
-        //mContext.activityPartnerBinding.tablayoutPartner.setupWithViewPager(mContext.activityPartnerBinding.partnerViewPager);
 
         partnerItemAdapter = new PartnerItemAdapter(mContext, scannedItems);
 
@@ -159,7 +158,12 @@ public class PartnerViewModel extends Observable {
                     for (String barcode : itemBarcodes) {
                         Realm realm = Realm.getDefaultInstance();
                         Item  item = realm.where(Item.class).equalTo("barcode", barcode).findFirst();
-                        scannedItems.add(new ScannedItem(item));
+                        if (item != null) {
+                            scannedItems.add(new ScannedItem(item));
+                        }else{
+                            Toast.makeText(mContext, "Данный товар не найден в этом складе",Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 }
 

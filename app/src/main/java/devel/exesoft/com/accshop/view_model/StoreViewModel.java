@@ -110,6 +110,18 @@ public class StoreViewModel extends BaseObservable {
         listView.setAdapter(storeItemAdapter);
     }
 
+    public void fillItemList(String name){
+        Realm realm = Realm.getDefaultInstance();
+        final RealmResults<Item> items = realm.where(Item.class).contains("name",name).findAll();
+        ListView listView = (ListView)mContext.findViewById(R.id.storage_items);
+        ArrayList<Item> list = new ArrayList();
+        for(Item item : items){
+            list.add(item);
+        }
+        StoreItemAdapter storeItemAdapter = new StoreItemAdapter(mContext,list);
+        listView.setAdapter(storeItemAdapter);
+    }
+
     private void synchServerData(){
         final Realm realm = Realm.getDefaultInstance();
         User user = realm.where(User.class).findFirst();
