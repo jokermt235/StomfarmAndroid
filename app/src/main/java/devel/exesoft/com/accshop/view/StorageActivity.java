@@ -61,4 +61,9 @@ public class StorageActivity extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        startActivity(new Intent(StorageActivity.this, HomeActivity.class));
+    }
 }

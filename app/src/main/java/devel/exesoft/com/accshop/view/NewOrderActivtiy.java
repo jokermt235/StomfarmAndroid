@@ -154,10 +154,9 @@ public class NewOrderActivtiy extends AppCompatActivity {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
                 pRealm.copyToRealmOrUpdate(orderItem);
             }
         });
-
+        initItems();
     }
 }
