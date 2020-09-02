@@ -1,14 +1,15 @@
 <resources>
     <string name="app_name">Accshop</string>
     <string-array name="home_left_menu_items">
-                
         <item>Контрагенты</item>
         <item>Остатки</item>
         <item>Заказы</item>
         <item>Склад</item>
+        <item>Продажи</item>
+        <item>Долги</item>
     </string-array>
     <string name="server_url">
-        http://test.exesoft.org:8808/StomRestService/api
+        http://muproj.ru:8808/StomRestService/api
     </string>
     <string name="summ_title">Сумма : </string>
     <string name="currency">СОМ</string>

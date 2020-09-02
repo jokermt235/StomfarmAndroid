@@ -47,6 +47,8 @@ public class HomeActivity extends AppCompatActivity {
                 case "Остатки" : hm.put("Image", R.mipmap.ic_home_left_menu_credit);hm.put("Title",row);break;
                 case "Заказы" : hm.put("Image", R.mipmap.ic_home_left_menu_orders);hm.put("Title",row);break;
                 case "Склад" : hm.put("Image", R.mipmap.ic_home_left_menu_stores);hm.put("Title",row);break;
+                case "Продажи" : hm.put("Image", R.mipmap.ic_sales_icon_foreground);hm.put("Title",row);break;
+                case "Долги" : hm.put("Image", R.mipmap.ic_debt_icon_foreground);hm.put("Title",row);break;
              }
             aList.add(hm);
         }
