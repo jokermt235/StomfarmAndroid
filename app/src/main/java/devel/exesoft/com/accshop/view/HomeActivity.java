@@ -19,6 +19,7 @@ import java.util.List;
 
 import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.controller.UserController;
+import devel.exesoft.com.accshop.model.Debt;
 import devel.exesoft.com.accshop.model.User;
 import io.realm.Realm;
 
@@ -108,6 +109,8 @@ public class HomeActivity extends AppCompatActivity {
                     case 1 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, DebtsActivity.class));finish();break;
                     case 2 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, OrdersActivity.class));finish();break;
                     case 3 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, StorageActivity.class));finish();break;
+                    case 4 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, SaleActivity.class));finish();break;
+                    case 5 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, DebtActivity.class));finish();break;
                 }
             }
         });
