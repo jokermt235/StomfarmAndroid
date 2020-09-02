@@ -10,6 +10,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+
 import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.model.Item;
 import devel.exesoft.com.accshop.model.User;
@@ -24,8 +26,21 @@ public class RemainController extends  AppController {
         String url = getInstance().getString(R.string.server_url) + "/" + NAME ;
         final JSONObject params  = new JSONObject();
         Log.d(TAG, url);
-        CustomStringRequest jsonObjectRequest = new CustomStringRequest(Request.Method.GET, url, params, response, error);
-
-        getInstance().getRequestQueue().add(jsonObjectRequest);
+        final Realm realm = Realm.getDefaultInstance();
+        User user = realm.where(User.class).findFirst();
+        try {
+            if(user != null) {
+                params.put("token", user.getToken());
+                params.put("name", name);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            CustomStringRequest jsonObjectRequest = new CustomStringRequest(url, params, response, error);
+            getInstance().getRequestQueue().add(jsonObjectRequest);
+        }catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 }

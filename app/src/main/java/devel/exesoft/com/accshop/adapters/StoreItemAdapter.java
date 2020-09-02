@@ -1,5 +1,6 @@
 package devel.exesoft.com.accshop.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,11 @@ public class StoreItemAdapter extends BaseAdapter {
     private List<Item> mItems = new ArrayList();
 
 
-    private StorageActivity mContext;
+    private Context mContext;
 
     private ViewHolder viewHolder;
 
-    public StoreItemAdapter(StorageActivity pContext, ArrayList items)
+    public StoreItemAdapter(Context pContext, ArrayList items)
     {
         mContext = pContext;
         mItems = items;
@@ -45,7 +46,7 @@ public class StoreItemAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if(view == null){
-            view = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.store_list_item, viewGroup , false);
+            view = LayoutInflater.from(mContext).inflate(R.layout.store_list_item, viewGroup , false);
             viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
         }else{

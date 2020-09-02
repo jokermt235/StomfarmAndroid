@@ -24,5 +24,10 @@
             android:theme="@android:style/ThemeOverlay.Material.Dark.ActionBar"
             app:title="@string/remains"
             app:titleTextColor="@android:color/background_light" />
+
+        <ListView
+            android:id="@+id/remainList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
