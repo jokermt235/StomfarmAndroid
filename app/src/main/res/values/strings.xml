@@ -14,4 +14,5 @@
     <string name="summ_title">Сумма : </string>
     <string name="currency">СОМ</string>
     <string name="unit_sht">шт.</string>
+    <string name="remains">Остатки</string>
 </resources>

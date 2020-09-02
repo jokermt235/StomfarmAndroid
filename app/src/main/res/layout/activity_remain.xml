@@ -21,6 +21,8 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme" />
+            android:theme="@android:style/ThemeOverlay.Material.Dark.ActionBar"
+            app:title="@string/remains"
+            app:titleTextColor="@android:color/background_light" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

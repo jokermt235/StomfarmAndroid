@@ -106,7 +106,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i){
                     case 0 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, ClientsActivity.class));finish();break;
-                    case 1 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, DebtsActivity.class));finish();break;
+                    case 1 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, RemainActivity.class));finish();break;
                     case 2 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, OrdersActivity.class));finish();break;
                     case 3 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, StorageActivity.class));finish();break;
                     case 4 : HomeActivity.this.startActivity(new Intent(HomeActivity.this, SaleActivity.class));finish();break;
