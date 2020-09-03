@@ -1,5 +1,6 @@
 package devel.exesoft.com.accshop.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,10 @@ public class PartnerSaleAapter extends BaseAdapter {
 
     private static String TAG = "PartnerSaleAdapater";
     ArrayList<Sale> mItems  = new ArrayList();
-    private PartnerActivity mContext;
+    private Context mContext;
     private ViewHolder viewHolder;
 
-    public PartnerSaleAapter(PartnerActivity mContext, ArrayList<Sale> mItems){
+    public PartnerSaleAapter(Context mContext, ArrayList<Sale> mItems){
         this.mContext = mContext;
         this.mItems  = mItems;
     }

@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -23,6 +25,7 @@ public class DebtActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ListView list;
     private String mobileId;
+    private TextView total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class DebtActivity extends AppCompatActivity {
         Realm realm = Realm.getDefaultInstance();
         User user = realm.where(User.class).findFirst();
         mobileId  = user.getMobile_id();
+        total = findViewById(R.id.debtTotal);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -62,13 +66,17 @@ public class DebtActivity extends AppCompatActivity {
     public void loadLocal(){
         ArrayList<Debt> debtItems  = new ArrayList();
         Realm realm = Realm.getDefaultInstance();
-        final RealmResults<Debt> items = realm.where(Debt.class).equalTo("mobile_id",mobileId).findAll();
+        final RealmResults<Debt> items = realm.where(Debt.class).findAll();
+        int sum = 0;
         for(Debt item : items){
-            if(!item.getClc_status()) {
+            if(!item.getClc_status())
+            {
+                sum += (item.getItem_price() * item.getAmount());
                 debtItems.add(item);
             }
         }
         PartnerDebtAdapter storeItemAdapter = new PartnerDebtAdapter(getApplicationContext(), debtItems);
+        total.setText(Integer.toString(sum));
         list.setAdapter(storeItemAdapter);
     }
 
