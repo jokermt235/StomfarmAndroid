@@ -14,6 +14,7 @@ public class Debt extends RealmObject {
     private long item_price;
     private String item_unit;
     private String partner_id;
+    private String mobile_id;
     private long amount;
     private Date created = new Date();
     private Date clc_timestamp = new Date();
@@ -110,6 +111,13 @@ public class Debt extends RealmObject {
         this.partner_id = partner_id;
     }
 
+    public void setMobile_id(String mobile_id){
+        this.mobile_id = mobile_id;
+    }
+
+    public String getMobile_id(){
+        return  mobile_id;
+    }
     public void setClc_timestamp(Date clc_timestamp) {
         this.clc_timestamp = clc_timestamp;
     }

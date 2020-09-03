@@ -46,4 +46,8 @@ public class User extends RealmObject {
     public String getUsername(){
         return username;
     }
+
+    public String getMobile_id(){
+        return mobile_id;
+    }
 }

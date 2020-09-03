@@ -1,5 +1,6 @@
 package devel.exesoft.com.accshop.adapters;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +21,10 @@ public class PartnerDebtAdapter extends BaseAdapter {
 
     private static String TAG = "PartnerDebtAdapter";
     ArrayList<Debt> mItems  = new ArrayList();
-    private PartnerActivity mContext;
+    private Context mContext;
     private ViewHolder viewHolder;
 
-    public PartnerDebtAdapter(PartnerActivity mContext, ArrayList<Debt> mItems){
+    public PartnerDebtAdapter(Context mContext, ArrayList<Debt> mItems){
         this.mContext = mContext;
         this.mItems  = mItems;
     }
@@ -63,7 +64,6 @@ public class PartnerDebtAdapter extends BaseAdapter {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     Log.d(TAG, getItem(index).getItem_name());
-                    mContext.activityPartnerBinding.getViewModel().setClcStatus(getItem(index).getId());
                 }
             }
         });

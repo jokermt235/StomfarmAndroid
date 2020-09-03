@@ -15,4 +15,8 @@
     <string name="currency">СОМ</string>
     <string name="unit_sht">шт.</string>
     <string name="remains">Остатки</string>
+    <string name="debt">Долги</string>
+    <string name="sale">Продажи</string>
+    <string name="totalLabel">Всего</string>
+    <string name="moneyLabel">СОМ</string>
 </resources>
