@@ -1,11 +1,16 @@
 package devel.exesoft.com.accshop.view;
+import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import devel.exesoft.com.accshop.R;
 import devel.exesoft.com.accshop.databinding.ActivityLoginBinding;
@@ -16,12 +21,20 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String  TAG = "LoginActivity";
 
+    private ProgressBar progressBar;
+    private TextView errorMessage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         ActivityLoginBinding activityLoginBinding = DataBindingUtil.setContentView(LoginActivity.this, R.layout.activity_login);
-        activityLoginBinding.setViewModel(new LoginViewModel());
+        LoginViewModel loginViewModel = new LoginViewModel();
+        progressBar = activityLoginBinding.loginProgressBar;
+        loginViewModel.setProgressBar(progressBar);
+        loginViewModel.setContext(getApplicationContext());
+        loginViewModel.setActivity(this);
+        loginViewModel.setErrorMessage(activityLoginBinding.errorMessage);
+        activityLoginBinding.setViewModel(loginViewModel);
         activityLoginBinding.executePendingBindings();
 
         //setContentView(R.layout.activity_login);
