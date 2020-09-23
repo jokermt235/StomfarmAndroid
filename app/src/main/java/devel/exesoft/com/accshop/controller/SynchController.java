@@ -86,7 +86,6 @@ public class SynchController extends AppController {
 
 
                                 }
-
                                 realm.close();
                             }
 
