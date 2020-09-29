@@ -9,7 +9,7 @@
         <item>Долги</item>
     </string-array>
     <string name="server_url">
-        http://muproj.ru:8808/StomRestService/api
+        http://muproj.ru/StomfarmRest/api
     </string>
     <string name="summ_title">Сумма : </string>
     <string name="currency">СОМ</string>

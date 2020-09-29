@@ -58,37 +58,38 @@ public class SynchController extends AppController {
                 if(response != null){
                     try {
                         JSONObject result = new JSONObject(response);
-
                         if(result.getBoolean("success")){
-                            JSONArray data = result.getJSONArray("data");
+                            final  JSONArray data = result.getJSONArray("data");
                             if(data.length() > 0){
-                                for(int i=0;i<data.length();i++){
-                                    final Item  item = new Item();
-                                    item.setCount(data.getJSONObject(i).getInt("amount"));
-                                    item.setName(data.getJSONObject(i).getString("name"));
-                                    item.setCount(data.getJSONObject(i).getInt("amount"));
-                                    item.setUnit_string(data.getJSONObject(i).getString("unit_string"));
-                                    item.setBarcode(data.getJSONObject(i).getString("barcode"));
-                                    item.setAcc_code(data.getJSONObject(i).getString("acc_code"));
-                                    item.setPrice(data.getJSONObject(i).getInt("price"));
-                                    item.setStore_id(data.getJSONObject(i).getInt("storage_id"));
-                                    item.setUser_id(user.getId());
-                                    item.setChanged(false);
-                                    item.setServer_code(data.getJSONObject(i).getInt("server_code"));
-                                    realm.executeTransaction(new Realm.Transaction() {
-                                        @Override
-                                        public void execute(Realm pRealm) {
-                                            // This will create a new object in Realm or throw an exception if the
-                                            // object already exists (same primary key)
-                                            pRealm.copyToRealmOrUpdate(item);
-                                        }
-                                    });
-
-
+                                try {
+                                    realm.delete(Item.class);
+                                    for (int i = 0; i < data.length(); i++) {
+                                        final Item item = new Item();
+                                        item.setCount(data.getJSONObject(i).getInt("amount"));
+                                        item.setName(data.getJSONObject(i).getString("name"));
+                                        item.setCount(data.getJSONObject(i).getInt("amount"));
+                                        item.setUnit_string(data.getJSONObject(i).getString("unit_string"));
+                                        item.setBarcode(data.getJSONObject(i).getString("barcode"));
+                                        item.setAcc_code(data.getJSONObject(i).getString("acc_code"));
+                                        item.setPrice(data.getJSONObject(i).getInt("price"));
+                                        item.setStore_id(data.getJSONObject(i).getInt("storage_id"));
+                                        item.setUser_id(user.getId());
+                                        item.setChanged(false);
+                                        item.setServer_code(data.getJSONObject(i).getInt("server_code"));
+                                        realm.executeTransaction(new Realm.Transaction() {
+                                            @Override
+                                            public void execute(Realm pRealm) {
+                                                // This will create a new object in Realm or throw an exception if the
+                                                // object already exists (same primary key)
+                                                pRealm.copyToRealmOrUpdate(item);
+                                            }
+                                        });
+                                    }
+                                    realm.close();
+                                }catch (Exception e){
+                                    e.printStackTrace();
                                 }
-                                realm.close();
                             }
-
                         }
                     }catch (Exception excp){
                         Log.e(TAG, excp.toString());

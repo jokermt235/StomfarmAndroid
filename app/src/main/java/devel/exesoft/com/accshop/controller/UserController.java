@@ -46,6 +46,21 @@ public class UserController extends AppController {
         }
     }
 
+    public static void login(String username, String password, Response.Listener<String> response, Response.ErrorListener error) {
+        String url = getInstance().getString(R.string.server_url) + "/" + NAME +"/token";
+        JSONObject params  = new JSONObject();
+        try {
+            params.put("username", username);
+            params.put("password", password
+            );
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e(TAG, params.toString());
+        CustomStringRequest jsonObjectRequest = new CustomStringRequest(Request.Method.POST, url, params, response,error);
+        getInstance().getRequestQueue().add(jsonObjectRequest);
+    }
+
     public static void login(String username, String password) {
 
         String url = getInstance().getString(R.string.server_url) + "/" + NAME +"/token";

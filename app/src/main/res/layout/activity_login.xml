@@ -72,8 +72,7 @@
                 android:text="Войти"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:onClick="@{()-> viewModel.onLoginClicked()}" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/label_or_text"

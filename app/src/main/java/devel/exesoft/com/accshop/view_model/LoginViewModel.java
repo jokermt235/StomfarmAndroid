@@ -40,12 +40,12 @@ public class LoginViewModel extends BaseObservable {
         login = new Login("","");
     }
 
-    public void onLoginClicked() {
+    /*public void onLoginClicked() {
         toastMessage = "HELLO WORLD";
         Log.d(TAG, "Accessing by username :" + login.getUsername());
         UserController.login(login.getUsername(), login.getPassword());
         notifyPropertyChanged(BR.username);
-    }
+    }*/
 
 
 }
