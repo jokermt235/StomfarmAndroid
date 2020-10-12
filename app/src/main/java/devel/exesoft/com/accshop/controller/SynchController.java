@@ -44,8 +44,6 @@ public class SynchController extends AppController {
                 JSONArray itemsArray = new JSONArray();
                 params.put("items", itemsArray);
                 url += "?token=" + user.getToken();
-
-                Log.d(TAG, params.toString());
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -61,8 +59,14 @@ public class SynchController extends AppController {
                         if(result.getBoolean("success")){
                             final  JSONArray data = result.getJSONArray("data");
                             if(data.length() > 0){
+                                Log.d(TAG, "Data has been loaded");
                                 try {
-                                    realm.delete(Item.class);
+                                    realm.executeTransaction(new Realm.Transaction() {
+                                        @Override
+                                        public void execute(Realm sRealm) {
+                                            sRealm.delete(Item.class);
+                                        }
+                                    });
                                     for (int i = 0; i < data.length(); i++) {
                                         final Item item = new Item();
                                         item.setCount(data.getJSONObject(i).getInt("amount"));
@@ -71,8 +75,9 @@ public class SynchController extends AppController {
                                         item.setUnit_string(data.getJSONObject(i).getString("unit_string"));
                                         item.setBarcode(data.getJSONObject(i).getString("barcode"));
                                         item.setAcc_code(data.getJSONObject(i).getString("acc_code"));
+                                        item.setOperation(data.getJSONObject(i).getString("operation"));
                                         item.setPrice(data.getJSONObject(i).getInt("price"));
-                                        item.setStore_id(data.getJSONObject(i).getInt("storage_id"));
+                                        //item.setStore_id(data.getJSONObject(i).getInt("storage_id"));
                                         item.setUser_id(user.getId());
                                         item.setChanged(false);
                                         item.setServer_code(data.getJSONObject(i).getInt("server_code"));

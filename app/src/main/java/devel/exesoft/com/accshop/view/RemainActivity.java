@@ -81,6 +81,7 @@ public class RemainActivity extends AppCompatActivity {
                                                 item.setUnit_string(data.getJSONObject(i).getString("unit_string"));
                                                 item.setBarcode(data.getJSONObject(i).getString("barcode"));
                                                 item.setPrice(data.getJSONObject(i).getLong("price"));
+                                                item.setStorage_name(data.getJSONObject(i).getString("storage_name"));
                                                 items.add(item);
                                             }
                                         }

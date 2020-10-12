@@ -21,6 +21,8 @@ public class Item extends RealmObject {
     private boolean deleted = false;
     private boolean changed = false;
     private long server_code;
+    private String operation;
+    private String storage_name = "";
 
     public boolean getChanged(){
         return  this.changed;
@@ -121,4 +123,19 @@ public class Item extends RealmObject {
     public long getStore_id(){
         return this.store_id;
     }
+
+    public void setOperation(String operation){
+        this.operation = operation;
+    }
+
+    public String getOperation(){
+        return  this.operation;
+    }
+
+    public String getStorage_name(){return  this.storage_name;}
+
+    public void setStorage_name(String storage_name){
+        this.storage_name = storage_name;
+    }
+
 }

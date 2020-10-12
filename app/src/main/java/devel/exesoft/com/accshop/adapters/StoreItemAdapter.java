@@ -58,6 +58,7 @@ public class StoreItemAdapter extends BaseAdapter {
         viewHolder.storeItemPrice.setText(String.valueOf(getItem(i).getPrice()));
         viewHolder.storeItemCount.setText(String.valueOf(getItem(i).getCount()));
         viewHolder.storeItemUnit.setText(getItem(i).getUnit_string());
+        viewHolder.storeOperation.setText(getItem(i).getStorage_name());
         return view;
     }
 
@@ -67,12 +68,14 @@ public class StoreItemAdapter extends BaseAdapter {
         final TextView storeItemCount;
         final TextView storeItemPrice;
         final TextView storeItemUnit;
+        final TextView storeOperation;
         private ViewHolder(View view) {
             storeItemName = (TextView)view.findViewById(R.id.storeItemName);
             storeItemBarcode = (TextView)view.findViewById(R.id.storeItemBarcode);
             storeItemCount = (TextView)view.findViewById(R.id.storeItemCount);
             storeItemPrice = (TextView)view.findViewById(R.id.storeItemPrice);
             storeItemUnit = (TextView)view.findViewById(R.id.storeItemUnit);
+            storeOperation = (TextView)view.findViewById(R.id.operation);
         }
     }
 }
