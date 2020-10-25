@@ -1,6 +1,7 @@
 package devel.exesoft.com.accshop.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +13,14 @@ import java.util.List;
 import java.util.Map;
 
 import devel.exesoft.com.accshop.R;
+import devel.exesoft.com.accshop.modals.StoresGroup;
 import devel.exesoft.com.accshop.model.Item;
 import devel.exesoft.com.accshop.view.StorageActivity;
 
 public class StoreItemAdapter extends BaseAdapter {
     private List<Item> mItems = new ArrayList();
 
-
+    private static  String TAG = "StoreItemAdapter";
     private Context mContext;
 
     private ViewHolder viewHolder;
@@ -59,6 +61,7 @@ public class StoreItemAdapter extends BaseAdapter {
         viewHolder.storeItemCount.setText(String.valueOf(getItem(i).getCount()));
         viewHolder.storeItemUnit.setText(getItem(i).getUnit_string());
         viewHolder.storeOperation.setText(getItem(i).getStorage_name());
+        viewClick(view, getItem(i).getName());
         return view;
     }
 
@@ -77,5 +80,15 @@ public class StoreItemAdapter extends BaseAdapter {
             storeItemUnit = (TextView)view.findViewById(R.id.storeItemUnit);
             storeOperation = (TextView)view.findViewById(R.id.operation);
         }
+    }
+
+    private void viewClick(View view, final String param){
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                StoresGroup storesGroup = new StoresGroup(mContext);
+                storesGroup.show();
+            }
+        });
     }
 }

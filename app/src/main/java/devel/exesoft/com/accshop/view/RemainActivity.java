@@ -1,5 +1,6 @@
 package devel.exesoft.com.accshop.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,10 +30,12 @@ public class RemainActivity extends AppCompatActivity {
     private String TAG = "RemainActivity";
     private Toolbar toolbar;
     private ListView remainList;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context  = RemainActivity.this;
         setContentView(R.layout.activity_remain);
         toolbar = findViewById(R.id.remainToolbar);
         setSupportActionBar(toolbar);
@@ -85,7 +88,7 @@ public class RemainActivity extends AppCompatActivity {
                                                 items.add(item);
                                             }
                                         }
-                                        remainList.setAdapter(new StoreItemAdapter(getApplicationContext(), items));
+                                        remainList.setAdapter(new StoreItemAdapter(context, items));
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
