@@ -2,6 +2,7 @@ package devel.exesoft.com.accshop.controller;
 
 import android.util.Log;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import org.json.JSONException;
@@ -31,6 +32,28 @@ public class StoreContoller extends AppController {
         }
         realm.close();
         return false;
+    }
+
+    public static void getStoresGroup(String name,Response.Listener<String> response, Response.ErrorListener error) {
+        String url = getInstance().getString(R.string.server_url) + "/" + NAME  +"/groups";
+        JSONObject params  = new JSONObject();
+        final Realm realm = Realm.getDefaultInstance();
+        User user = realm.where(User.class).findFirst();
+        try {
+            if(user != null) {
+                params.put("name", name);
+                params.put("token", user.getToken());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e(TAG, params.toString());
+        try {
+            CustomStringRequest jsonObjectRequest = new CustomStringRequest(url, params, response,error);
+            getInstance().getRequestQueue().add(jsonObjectRequest);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static void getRemoteStore(final ActivityStorageBinding activityStorageBinding){

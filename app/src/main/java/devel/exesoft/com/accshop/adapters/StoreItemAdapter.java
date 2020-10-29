@@ -8,11 +8,19 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import devel.exesoft.com.accshop.R;
+import devel.exesoft.com.accshop.controller.StoreContoller;
 import devel.exesoft.com.accshop.modals.StoresGroup;
 import devel.exesoft.com.accshop.model.Item;
 import devel.exesoft.com.accshop.view.StorageActivity;
@@ -86,8 +94,24 @@ public class StoreItemAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                StoresGroup storesGroup = new StoresGroup(mContext);
-                storesGroup.show();
+                final StoresGroup storesGroup = new StoresGroup(mContext);
+                StoreContoller.getStoresGroup(param, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response)  {
+                        try {
+                            storesGroup.setItems(new JSONObject(response));
+                            storesGroup.show();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
             }
         });
     }
